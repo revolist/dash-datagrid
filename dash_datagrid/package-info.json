@@ -61,6 +61,7 @@
     "@stencil/core": "4.43.4",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "happy-dom": "^20.9.0",
     "react": "^18.3.1",
     "react-docgen": "5.4.3",
     "react-dom": "^18.3.1",

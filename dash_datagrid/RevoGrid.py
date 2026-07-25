@@ -22,7 +22,7 @@ ComponentType = typing.Union[
 
 class RevoGrid(Component):
     """A RevoGrid component.
-High-performance virtual data grid exposed as a Plotly Dash component.
+Revogrid - High-performance, customizable grid library for managing large datasets. ### Events guide For a comprehensive events guide, check the [Events API Page](/guide/api/events). All events propagate to the root level of the grid. [Dependency tree](#Dependencies). ### Type definitions Read [type definition file](https://github.com/revolist/revogrid/blob/master/src/interfaces.d.ts) for the full interface information. All complex property types such as `ColumnRegular`, `ColumnProp`, `ColumnDataSchemaModel` can be found there. ### HTMLRevoGridElement
 
 Keyword arguments:
 
@@ -30,147 +30,193 @@ Keyword arguments:
     Dash component identifier.
 
 - accessible (boolean; optional):
-    Enables accessibility attributes and keyboard behavior.
+    Enable accessibility. If disabled, the grid will not be
+    accessible.
 
-- additionalData (dict; optional):
-    Additional plain JSON data available to grid configuration.
+- additionalData (boolean | number | string | dict | list; optional):
+    Additional data to be passed to plugins, renders or editors. For
+    example if you need to pass Vue component instance.
 
 - aftercolumnresize (dict; optional):
-    Latest aftercolumnresize JSON-safe event envelope.
+    Emitted after column resizing. Useful for retrieving the resized
+    columns. Contains a JSON-safe event envelope.
 
 - afteredit (dict; optional):
-    Latest compact afteredit JSON-safe event envelope.
+    After data applied or range changed. Contains a JSON-safe event
+    envelope.
 
 - afterfocus (dict; optional):
-    Latest afterfocus JSON-safe event envelope.
+    After focus render finished. Can be used to access a focus element
+    through `event.target`. This is just a duplicate of `afterfocus`
+    from `revogr-focus.tsx`. Contains a JSON-safe event envelope.
 
 - aftersortingapply (dict; optional):
-    Latest aftersortingapply JSON-safe event envelope.
+    By `SortingPlugin` <br>Triggered after sorting has been applied
+    and completed. <br>Provides final sorting state and sorting column
+    metadata when available. Contains a JSON-safe event envelope.
 
 - applyOnClose (boolean; optional):
-    Applies filter changes when the filter popover closes.
+    Apply changes in editor when closed except 'Escape' cases. If
+    custom editor in use method getValue required. Check
+    interfaces.d.ts `EditorBase` for more info.
 
-- autoSizeColumn (boolean | dict; optional):
-    Enables or configures automatic column sizing.
+- autoSizeColumn (boolean; optional):
+    Autosize config. Enables columns autoSize. For more details check
+    `autoSizeColumn` plugin. By default disabled, hence operation is
+    not performance efficient. `True` to enable with default params
+    (double header separator click for autosize). Or define config.
+    See `AutoSizeColumnConfig` for more details.
 
 - beforefilterapply (dict; optional):
-    Latest beforefilterapply notification. Python cannot cancel it
-    synchronously.
+    Emitted before applying a filter to the data source. Use
+    e.preventDefault() to prevent cell focus change. Modify if you
+    need to change filters. Contains a JSON-safe event envelope.
 
 - canDrag (boolean; optional):
-    Enables row dragging.
+    Disable native drag&drop plugin.
 
 - canFocus (boolean; optional):
-    Allows the grid to receive focus.
+    When True cell focus appear.
 
 - canMoveColumns (boolean; optional):
-    Enables column reordering.
+    Enable column move plugin.
 
 - className (string; optional):
     CSS class applied to the RevoGrid component host.
 
 - colSize (number; optional):
-    Default column width in pixels.
+    Indicates default column size.
 
 - columnTypes (dict; optional):
-    Named JSON-safe column type definitions. Function members are
-    unsupported.
+    Column Types Format. Every type represent multiple column
+    properties. Types will be merged but can be replaced with column
+    properties. Types were made as separate objects to be reusable per
+    multiple columns.
 
 - columns (list; optional):
-    Column definitions. Function-valued renderers and editors are
-    unsupported.
+    Columns - defines an array of grid columns. Can be column or
+    grouped column.
 
 - disableVirtualX (boolean; optional):
-    Disables horizontal virtualization.
+    Disable lazy rendering mode for the `X axis`. Use when not many
+    columns present and you don't need rerenader cells during scroll.
+    Can be used for initial rendering performance improvement.
 
 - disableVirtualY (boolean; optional):
-    Disables vertical virtualization.
+    Disable lazy rendering mode for the `Y axis`. Use when not many
+    rows present and you don't need rerenader cells during scroll. Can
+    be used for initial rendering performance improvement.
 
 - eventData (dict; optional):
     Latest JSON-safe event envelope from eventListeners.
 
 - eventListeners (list of strings; optional):
-    Other RevoGrid event names to publish through eventData.
+    Additional RevoGrid event names to publish through eventData.
 
 - exporting (boolean; optional):
-    Enables export behavior.
+    Enable export plugin.
 
-- filter (boolean | dict; optional):
-    Enables or configures filtering. Function-valued custom filters
-    are unsupported.
+- filter (boolean; optional):
+    Enables filter plugin. Can be boolean. Or can be filter collection
+    See `FilterCollection` for more info.
 
 - frameSize (number; optional):
-    Number of extra virtualized items rendered around the viewport.
+    Defines how many rows/columns should be rendered outside visible
+    area.
 
 - grouping (dict; optional):
-    JSON-safe row-grouping configuration.
+    Group rows based on this property. Define properties to be groped
+    by grouping plugin See `GroupingOptions`.
 
 - headerclick (dict; optional):
-    Latest headerclick JSON-safe event envelope.
+    On header click. Contains a JSON-safe event envelope.
 
 - hideAttribution (boolean; optional):
-    Hides the RevoGrid attribution link.
+    Please only hide the attribution if you are subscribed to Pro
+    version.
 
 - noHorizontalScrollTransfer (boolean; optional):
-    Prevents wheel transfer from horizontal grid scrolling.
+    Prevents horizontal scroll state from being mirrored across
+    viewport sections.
 
 - pinnedBottomSource (list; optional):
-    Rows pinned to the bottom viewport.
+    Pinned bottom Source: {[T in ColumnProp]: any} - defines pinned
+    bottom rows data source.
 
 - pinnedTopSource (list; optional):
-    Rows pinned to the top viewport.
+    Pinned top Source: {[T in ColumnProp]: any} - defines pinned top
+    rows data source.
 
 - range (boolean; optional):
-    Enables range selection.
+    When True, user can select a cell range. Required for range-based
+    clipboard fill.
 
 - readonly (boolean; optional):
-    Makes cells read-only.
+    When True, grid in read only mode.
 
 - resize (boolean; optional):
-    Enables column resizing.
+    When True, columns are resizable.
 
 - rowClass (string; optional):
-    CSS class applied to grid rows.
+    Row class property mapping. Map custom classes to rows from row
+    object data. Define this property in rgRow object and this will be
+    mapped as rgRow class.
 
 - rowDefinitions (list; optional):
-    Per-row size definitions.
+    Custom row properies to be applied. See `RowDefinition` for more
+    info.
 
-- rowHeaders (boolean | dict; optional):
-    Enables or configures row headers.
+- rowHeaders (boolean; optional):
+    Excel like functionality. Show row numbers. Also can be used for
+    custom row header render if object provided.
 
 - rowSize (number; optional):
-    Default row height in pixels.
+    Indicates default rgRow size. By default 0, means theme package
+    size will be applied Alternatively you can use `rowSize` to reset
+    viewport.
 
 - roworderchanged (dict; optional):
-    Latest roworderchanged JSON-safe event envelope.
+    Before the order of `rgRow` is applied. To prevent the default
+    behavior of changing the order of `rgRow`, you can call
+    `e.preventDefault()`. Contains a JSON-safe event envelope.
 
 - rtl (boolean; optional):
-    Enables right-to-left layout.
+    Enable right-to-left (RTL) mode. When enabled, columns will be
+    displayed from right to left.
 
 - sorting (dict; optional):
-    JSON-safe sorting configuration.
+    Alternative way to set sorting. `{columns: [{prop: 'name', order:
+    'asc'}]}` Use SortingPlugin to get current sorting state.
 
 - source (list; optional):
-    Main row source. Pass DataFrame data with df.to_dict(\"records\").
+    Source - defines main data source. Can be an Object or 2
+    dimensional array([][]); Keys/indexes referenced from columns
+    Prop.
 
 - stretch (boolean | string; optional):
-    Enables or configures column stretching.
+    Stretch strategy for columns by `StretchColumn` plugin. For
+    example if there are more space on the right last column size
+    would be increased.
 
 - syncSourceOnEdit (boolean; default False):
     When True, afteredit also updates the complete Dash source
     property.
 
 - theme (string; optional):
-    Grid theme name.
+    Theme name.
 
-- trimmedRows (dict; optional):
-    Map of trimmed physical row indexes.
+- trimmedRows (boolean | number; optional):
+    Trimmed rows. Functionality which allows to hide rows from main
+    data set. `trimmedRows` are physical `rgRow` indexes to hide.
 
-- useClipboard (boolean | dict; optional):
-    Enables or configures clipboard behavior.
+- useClipboard (boolean; optional):
+    When True enable clipboard. Can be boolean or clipboard config.
 
 - virtualX (list; optional):
-    Horizontal viewport dimension identifiers."""
+    Column dimensions that use X axis virtual rendering. Defaults to
+    regular columns only to preserve pinned column behavior. Set to
+    `['rgCol', 'colPinStart', 'colPinEnd']` to virtualize all column
+    areas."""
     _children_props: typing.List[str] = []
     _base_nodes = ['children']
     _namespace = 'dash_datagrid'
@@ -183,19 +229,19 @@ Keyword arguments:
         className: typing.Optional[str] = None,
         style: typing.Optional[typing.Any] = None,
         accessible: typing.Optional[bool] = None,
-        additionalData: typing.Optional[dict] = None,
+        additionalData: typing.Optional[typing.Any] = None,
         applyOnClose: typing.Optional[bool] = None,
-        autoSizeColumn: typing.Optional[typing.Union[bool, dict]] = None,
+        autoSizeColumn: typing.Optional[bool] = None,
         canDrag: typing.Optional[bool] = None,
         canFocus: typing.Optional[bool] = None,
         canMoveColumns: typing.Optional[bool] = None,
         colSize: typing.Optional[NumberType] = None,
-        columnTypes: typing.Optional[dict] = None,
         columns: typing.Optional[typing.Sequence] = None,
+        columnTypes: typing.Optional[dict] = None,
         disableVirtualX: typing.Optional[bool] = None,
         disableVirtualY: typing.Optional[bool] = None,
         exporting: typing.Optional[bool] = None,
-        filter: typing.Optional[typing.Union[bool, dict]] = None,
+        filter: typing.Optional[bool] = None,
         frameSize: typing.Optional[NumberType] = None,
         grouping: typing.Optional[dict] = None,
         hideAttribution: typing.Optional[bool] = None,
@@ -207,15 +253,15 @@ Keyword arguments:
         resize: typing.Optional[bool] = None,
         rowClass: typing.Optional[str] = None,
         rowDefinitions: typing.Optional[typing.Sequence] = None,
-        rowHeaders: typing.Optional[typing.Union[bool, dict]] = None,
+        rowHeaders: typing.Optional[bool] = None,
         rowSize: typing.Optional[NumberType] = None,
         rtl: typing.Optional[bool] = None,
         sorting: typing.Optional[dict] = None,
         source: typing.Optional[typing.Sequence] = None,
         stretch: typing.Optional[typing.Union[bool, str]] = None,
         theme: typing.Optional[str] = None,
-        trimmedRows: typing.Optional[dict] = None,
-        useClipboard: typing.Optional[typing.Union[bool, dict]] = None,
+        trimmedRows: typing.Optional[typing.Union[bool, NumberType]] = None,
+        useClipboard: typing.Optional[bool] = None,
         virtualX: typing.Optional[typing.Sequence] = None,
         aftercolumnresize: typing.Optional[dict] = None,
         afteredit: typing.Optional[dict] = None,

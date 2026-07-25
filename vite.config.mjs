@@ -1,31 +1,16 @@
 import path from 'node:path';
-import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 import { defineConfig } from 'vite';
 
 const directory = path.dirname(fileURLToPath(import.meta.url));
-const localRuntime = path.resolve(
-  directory,
-  '../../stencil-dash-output-target/dist/runtime.js',
-);
-const localRuntimeSource = path.resolve(
-  directory,
-  '../../stencil-dash-output-target/src/runtime.ts',
-);
-const runtimeAlias = fs.existsSync(localRuntime)
-  ? localRuntime
-  : fs.existsSync(localRuntimeSource)
-    ? localRuntimeSource
-    : null;
+const runtimeAlias = path.resolve(directory, 'src/lib/runtime.js');
 
 export default defineConfig({
   resolve: {
-    alias: runtimeAlias
-      ? {
-          '@revolist/stencil-dash-output-target/runtime': runtimeAlias,
-        }
-      : {},
+    alias: {
+      '@revolist/stencil-dash-output-target/runtime': runtimeAlias,
+    },
   },
   build: {
     lib: {

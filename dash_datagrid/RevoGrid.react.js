@@ -14,7 +14,7 @@ import {
   createSourceSyncToken,
   normalizeEventNames,
 } from '@revolist/stencil-dash-output-target/runtime';
-import { defineCustomElement as defineRevoGridCustomElement } from '../define-custom-elements.js';
+import { defineCustomElement as defineRevoGridCustomElement } from "../define-custom-elements.js";
 
 if (
   typeof customElements !== 'undefined'
@@ -22,55 +22,19 @@ if (
   defineRevoGridCustomElement();
 }
 
-const GRID_PROPERTY_NAMES = Object.freeze([
-  'accessible',
-  'additionalData',
-  'applyOnClose',
-  'autoSizeColumn',
-  'canDrag',
-  'canFocus',
-  'canMoveColumns',
-  'colSize',
-  'columnTypes',
-  'columns',
-  'disableVirtualX',
-  'disableVirtualY',
-  'exporting',
-  'filter',
-  'frameSize',
-  'grouping',
-  'hideAttribution',
-  'noHorizontalScrollTransfer',
-  'pinnedBottomSource',
-  'pinnedTopSource',
-  'range',
-  'readonly',
-  'resize',
-  'rowClass',
-  'rowDefinitions',
-  'rowHeaders',
-  'rowSize',
-  'rtl',
-  'sorting',
-  'source',
-  'stretch',
-  'theme',
-  'trimmedRows',
-  'useClipboard',
-  'virtualX',
-]);
+const GRID_PROPERTY_NAMES = Object.freeze(["accessible","additionalData","applyOnClose","autoSizeColumn","canDrag","canFocus","canMoveColumns","colSize","columns","columnTypes","disableVirtualX","disableVirtualY","exporting","filter","frameSize","grouping","hideAttribution","noHorizontalScrollTransfer","pinnedBottomSource","pinnedTopSource","range","readonly","resize","rowClass","rowDefinitions","rowHeaders","rowSize","rtl","sorting","source","stretch","theme","trimmedRows","useClipboard","virtualX"]);
 const EVENT_MAPPINGS = Object.freeze({
-  aftercolumnresize: 'aftercolumnresize',
-  afteredit: 'afteredit',
-  afterfocus: 'afterfocus',
-  aftersortingapply: 'aftersortingapply',
-  beforefilterapply: 'beforefilterapply',
-  headerclick: 'headerclick',
-  roworderchanged: 'roworderchanged',
+  "aftercolumnresize": "aftercolumnresize",
+  "afteredit": "afteredit",
+  "afterfocus": "afterfocus",
+  "aftersortingapply": "aftersortingapply",
+  "beforefilterapply": "beforefilterapply",
+  "headerclick": "headerclick",
+  "roworderchanged": "roworderchanged"
 });
 
 /**
- * High-performance virtual data grid exposed as a Plotly Dash component.
+ * Revogrid - High-performance, customizable grid library for managing large datasets. ### Events guide For a comprehensive events guide, check the [Events API Page](/guide/api/events). All events propagate to the root level of the grid. [Dependency tree](#Dependencies). ### Type definitions Read [type definition file](https://github.com/revolist/revogrid/blob/master/src/interfaces.d.ts) for the full interface information. All complex property types such as `ColumnRegular`, `ColumnProp`, `ColumnDataSchemaModel` can be found there. ### HTMLRevoGridElement
  */
 const RevoGrid = forwardRef(function RevoGrid(props, forwardedRef) {
   const hostRef = useRef(null);
@@ -80,7 +44,7 @@ const RevoGrid = forwardRef(function RevoGrid(props, forwardedRef) {
   const sequenceRef = useRef(0);
 
   if (!elementRef.current && typeof document !== 'undefined') {
-    const element = document.createElement('revo-grid');
+    const element = document.createElement("revo-grid");
     element.style.display = 'block';
     element.style.width = '100%';
     element.style.height = '100%';
@@ -197,7 +161,7 @@ const RevoGrid = forwardRef(function RevoGrid(props, forwardedRef) {
   });
 });
 
-RevoGrid.displayName = 'RevoGrid';
+RevoGrid.displayName = "RevoGrid";
 
 RevoGrid.propTypes = {
   /** Dash component identifier. */
@@ -206,91 +170,91 @@ RevoGrid.propTypes = {
   className: PropTypes.string,
   /** Inline style applied to the RevoGrid component host. */
   style: PropTypes.object,
-  /** Enables accessibility attributes and keyboard behavior. */
+  /** Enable accessibility. If disabled, the grid will not be accessible. */
   accessible: PropTypes.bool,
-  /** Additional plain JSON data available to grid configuration. */
-  additionalData: PropTypes.object,
-  /** Applies filter changes when the filter popover closes. */
+  /** Additional data to be passed to plugins, renders or editors. For example if you need to pass Vue component instance. */
+  additionalData: PropTypes.any,
+  /** Apply changes in editor when closed except 'Escape' cases. If custom editor in use method getValue required. Check interfaces.d.ts `EditorBase` for more info. */
   applyOnClose: PropTypes.bool,
-  /** Enables or configures automatic column sizing. */
-  autoSizeColumn: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-  /** Enables row dragging. */
+  /** Autosize config. Enables columns autoSize. For more details check `autoSizeColumn` plugin. By default disabled, hence operation is not performance efficient. `true` to enable with default params (double header separator click for autosize). Or define config. See `AutoSizeColumnConfig` for more details. */
+  autoSizeColumn: PropTypes.bool,
+  /** Disable native drag&drop plugin. */
   canDrag: PropTypes.bool,
-  /** Allows the grid to receive focus. */
+  /** When true cell focus appear. */
   canFocus: PropTypes.bool,
-  /** Enables column reordering. */
+  /** Enable column move plugin. */
   canMoveColumns: PropTypes.bool,
-  /** Default column width in pixels. */
+  /** Indicates default column size. */
   colSize: PropTypes.number,
-  /** Named JSON-safe column type definitions. Function members are unsupported. */
-  columnTypes: PropTypes.object,
-  /** Column definitions. Function-valued renderers and editors are unsupported. */
+  /** Columns - defines an array of grid columns. Can be column or grouped column. */
   columns: PropTypes.array,
-  /** Disables horizontal virtualization. */
+  /** Column Types Format. Every type represent multiple column properties. Types will be merged but can be replaced with column properties. Types were made as separate objects to be reusable per multiple columns. */
+  columnTypes: PropTypes.object,
+  /** Disable lazy rendering mode for the `X axis`. Use when not many columns present and you don't need rerenader cells during scroll. Can be used for initial rendering performance improvement. */
   disableVirtualX: PropTypes.bool,
-  /** Disables vertical virtualization. */
+  /** Disable lazy rendering mode for the `Y axis`. Use when not many rows present and you don't need rerenader cells during scroll. Can be used for initial rendering performance improvement. */
   disableVirtualY: PropTypes.bool,
-  /** Enables export behavior. */
+  /** Enable export plugin. */
   exporting: PropTypes.bool,
-  /** Enables or configures filtering. Function-valued custom filters are unsupported. */
-  filter: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-  /** Number of extra virtualized items rendered around the viewport. */
+  /** Enables filter plugin. Can be boolean. Or can be filter collection See `FilterCollection` for more info. */
+  filter: PropTypes.bool,
+  /** Defines how many rows/columns should be rendered outside visible area. */
   frameSize: PropTypes.number,
-  /** JSON-safe row-grouping configuration. */
+  /** Group rows based on this property. Define properties to be groped by grouping plugin See `GroupingOptions`. */
   grouping: PropTypes.object,
-  /** Hides the RevoGrid attribution link. */
+  /** Please only hide the attribution if you are subscribed to Pro version */
   hideAttribution: PropTypes.bool,
-  /** Prevents wheel transfer from horizontal grid scrolling. */
+  /** Prevents horizontal scroll state from being mirrored across viewport sections. */
   noHorizontalScrollTransfer: PropTypes.bool,
-  /** Rows pinned to the bottom viewport. */
+  /** Pinned bottom Source: {[T in ColumnProp]: any} - defines pinned bottom rows data source. */
   pinnedBottomSource: PropTypes.array,
-  /** Rows pinned to the top viewport. */
+  /** Pinned top Source: {[T in ColumnProp]: any} - defines pinned top rows data source. */
   pinnedTopSource: PropTypes.array,
-  /** Enables range selection. */
+  /** When true, user can select a cell range. Required for range-based clipboard fill. */
   range: PropTypes.bool,
-  /** Makes cells read-only. */
+  /** When true, grid in read only mode. */
   readonly: PropTypes.bool,
-  /** Enables column resizing. */
+  /** When true, columns are resizable. */
   resize: PropTypes.bool,
-  /** CSS class applied to grid rows. */
+  /** Row class property mapping. Map custom classes to rows from row object data. Define this property in rgRow object and this will be mapped as rgRow class. */
   rowClass: PropTypes.string,
-  /** Per-row size definitions. */
+  /** Custom row properies to be applied. See `RowDefinition` for more info. */
   rowDefinitions: PropTypes.array,
-  /** Enables or configures row headers. */
-  rowHeaders: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-  /** Default row height in pixels. */
+  /** Excel like functionality. Show row numbers. Also can be used for custom row header render if object provided. */
+  rowHeaders: PropTypes.bool,
+  /** Indicates default rgRow size. By default 0, means theme package size will be applied Alternatively you can use `rowSize` to reset viewport */
   rowSize: PropTypes.number,
-  /** Enables right-to-left layout. */
+  /** Enable right-to-left (RTL) mode. When enabled, columns will be displayed from right to left. */
   rtl: PropTypes.bool,
-  /** JSON-safe sorting configuration. */
+  /** Alternative way to set sorting. `{columns: [{prop: 'name', order: 'asc'}]}` Use SortingPlugin to get current sorting state */
   sorting: PropTypes.object,
-  /** Main row source. Pass DataFrame data with df.to_dict("records"). */
+  /** Source - defines main data source. Can be an Object or 2 dimensional array([][]); Keys/indexes referenced from columns Prop. */
   source: PropTypes.array,
-  /** Enables or configures column stretching. */
+  /** Stretch strategy for columns by `StretchColumn` plugin. For example if there are more space on the right last column size would be increased. */
   stretch: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  /** Grid theme name. */
+  /** Theme name. */
   theme: PropTypes.string,
-  /** Map of trimmed physical row indexes. */
-  trimmedRows: PropTypes.object,
-  /** Enables or configures clipboard behavior. */
-  useClipboard: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-  /** Horizontal viewport dimension identifiers. */
+  /** Trimmed rows. Functionality which allows to hide rows from main data set. `trimmedRows` are physical `rgRow` indexes to hide. */
+  trimmedRows: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
+  /** When true enable clipboard. Can be boolean or clipboard config. */
+  useClipboard: PropTypes.bool,
+  /** Column dimensions that use X axis virtual rendering. Defaults to regular columns only to preserve pinned column behavior. Set to `['rgCol', 'colPinStart', 'colPinEnd']` to virtualize all column areas. */
   virtualX: PropTypes.array,
-  /** Latest aftercolumnresize JSON-safe event envelope. */
+  /** Emitted after column resizing. Useful for retrieving the resized columns. Contains a JSON-safe event envelope. */
   aftercolumnresize: PropTypes.object,
-  /** Latest compact afteredit JSON-safe event envelope. */
+  /** After data applied or range changed. Contains a JSON-safe event envelope. */
   afteredit: PropTypes.object,
-  /** Latest afterfocus JSON-safe event envelope. */
+  /** After focus render finished. Can be used to access a focus element through `event.target`. This is just a duplicate of `afterfocus` from `revogr-focus.tsx`. Contains a JSON-safe event envelope. */
   afterfocus: PropTypes.object,
-  /** Latest aftersortingapply JSON-safe event envelope. */
+  /** By `SortingPlugin` <br>Triggered after sorting has been applied and completed. <br>Provides final sorting state and sorting column metadata when available. Contains a JSON-safe event envelope. */
   aftersortingapply: PropTypes.object,
-  /** Latest beforefilterapply notification. Python cannot cancel it synchronously. */
+  /** Emitted before applying a filter to the data source. Use e.preventDefault() to prevent cell focus change. Modify if you need to change filters. Contains a JSON-safe event envelope. */
   beforefilterapply: PropTypes.object,
-  /** Latest headerclick JSON-safe event envelope. */
+  /** On header click. Contains a JSON-safe event envelope. */
   headerclick: PropTypes.object,
-  /** Latest roworderchanged JSON-safe event envelope. */
+  /** Before the order of `rgRow` is applied. To prevent the default behavior of changing the order of `rgRow`, you can call `e.preventDefault()`. Contains a JSON-safe event envelope. */
   roworderchanged: PropTypes.object,
-  /** Other RevoGrid event names to publish through eventData. */
+  /** Additional RevoGrid event names to publish through eventData. */
   eventListeners: PropTypes.arrayOf(PropTypes.string),
   /** Latest JSON-safe event envelope from eventListeners. */
   eventData: PropTypes.object,

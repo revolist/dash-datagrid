@@ -42,16 +42,27 @@ jobs:
           if [ "${PYPI_STATUS}" = "200" ]; then
             PYPI_EXISTS=true
           fi
-          if [ "${NPM_EXISTS}" != "${PYPI_EXISTS}" ]; then
-            echo "Version ${VERSION} exists in only one registry; refusing a partial duplicate release."
-            exit 1
-          fi
+
+          PUBLISH_NPM=true
+          PUBLISH_PYPI=true
           if [ "${NPM_EXISTS}" = "true" ]; then
+            PUBLISH_NPM=false
+          fi
+          if [ "${PYPI_EXISTS}" = "true" ]; then
+            PUBLISH_PYPI=false
+          fi
+
+          if [ "${PUBLISH_NPM}" = "false" ] && [ "${PUBLISH_PYPI}" = "false" ]; then
             echo "Version ${VERSION} already exists in both registries."
             echo "publish=false" >> "$GITHUB_OUTPUT"
           else
+            if [ "${NPM_EXISTS}" != "${PYPI_EXISTS}" ]; then
+              echo "Version ${VERSION} is a partial release; publishing only the missing registry artifact."
+            fi
             echo "publish=true" >> "$GITHUB_OUTPUT"
           fi
+          echo "publish_npm=${PUBLISH_NPM}" >> "$GITHUB_OUTPUT"
+          echo "publish_pypi=${PUBLISH_PYPI}" >> "$GITHUB_OUTPUT"
           echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
 
       - name: Install and generate
@@ -71,13 +82,13 @@ jobs:
           npm pack --pack-destination dist
 
       - name: Publish npm package
-        if: steps.preflight.outputs.publish == 'true'
+        if: steps.preflight.outputs.publish == 'true' && steps.preflight.outputs.publish_npm == 'true'
         run: npm publish --access public --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish Python distributions
-        if: steps.preflight.outputs.publish == 'true'
+        if: steps.preflight.outputs.publish == 'true' && steps.preflight.outputs.publish_pypi == 'true'
         uses: pypa/gh-action-pypi-publish@release/v1
 
       - name: Create tested tag and GitHub release
@@ -86,11 +97,21 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ steps.preflight.outputs.version }}
         run: |
-          git tag "v${VERSION}"
+          if ! git rev-parse --verify "refs/tags/v${VERSION}" >/dev/null 2>&1; then
+            git tag "v${VERSION}"
+          fi
           git push origin "v${VERSION}"
-          gh release create "v${VERSION}" \
-            dist/*.whl \
-            dist/*.tar.gz \
-            dist/*.tgz \
-            --generate-notes \
-            --title "dash-datagrid ${VERSION}"
+          if gh release view "v${VERSION}" >/dev/null 2>&1; then
+            gh release upload "v${VERSION}" \
+              dist/*.whl \
+              dist/*.tar.gz \
+              dist/*.tgz \
+              --clobber
+          else
+            gh release create "v${VERSION}" \
+              dist/*.whl \
+              dist/*.tar.gz \
+              dist/*.tgz \
+              --generate-notes \
+              --title "dash-datagrid ${VERSION}"
+          fi

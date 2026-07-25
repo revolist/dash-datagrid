@@ -1,5 +1,5 @@
 import Qs, { forwardRef as en, useRef as We, useImperativeHandle as tn, useLayoutEffect as At } from "react";
-import x from "prop-types";
+import C from "prop-types";
 const Ve = /* @__PURE__ */ Symbol("dash-json-omit");
 function rn(t) {
   const e = t;
@@ -38,24 +38,24 @@ function Qt(t, e, r) {
     e.delete(t);
   }
 }
-function je(t) {
+function Pe(t) {
   const e = Qt(t, /* @__PURE__ */ new WeakSet(), !0);
   return e === Ve ? null : e;
 }
 function ei(t, e, r, i = Date.now()) {
   return {
     name: t,
-    detail: je(e),
+    detail: Pe(e),
     timestamp: i,
     sequence: r
   };
 }
 function on(t) {
   if (!t || typeof t != "object")
-    return je(t);
+    return Pe(t);
   const e = t;
   if (e.data && typeof e.data == "object" && "models" in e)
-    return je({
+    return Pe({
       type: e.type,
       data: e.data,
       newRange: e.newRange,
@@ -72,17 +72,17 @@ function on(t) {
     "colType"
   ])
     i in e && (r[i] = e[i]);
-  return je(r);
+  return Pe(r);
 }
 function sn(t) {
-  const e = je(t);
+  const e = Pe(t);
   return {
     value: e,
     serialized: JSON.stringify(e)
   };
 }
 function nn(t, e) {
-  return e ? Object.is(t, e.value) ? !0 : JSON.stringify(je(t)) === e.serialized : !1;
+  return e ? Object.is(t, e.value) ? !0 : JSON.stringify(Pe(t)) === e.serialized : !1;
 }
 function ti(t, e, r, i, o = null) {
   let s = !1;
@@ -99,7 +99,11 @@ function ti(t, e, r, i, o = null) {
   return { sourceSyncConsumed: s };
 }
 function ln(t) {
-  return Array.isArray(t) ? [...new Set(t.filter((e) => typeof e == "string" && e))].sort() : [];
+  return Array.isArray(t) ? [
+    ...new Set(
+      t.filter((e) => typeof e == "string" && e)
+    )
+  ].sort() : [];
 }
 function ri(t, e) {
   const r = Object.entries(e);
@@ -237,7 +241,7 @@ var hn = (t, e) => {
 }, ii = (t, e) => e in t, we = (t, e) => (0, console.error)(t, e);
 var yt = /* @__PURE__ */ new Map(), gn = [];
 var pn = "slot-fb{display:contents}slot-fb[hidden]{display:none}", oi = "http://www.w3.org/1999/xlink", D = typeof window < "u" ? window : {}, L = D.HTMLElement || class {
-}, P = {
+}, j = {
   $flags$: 0,
   $resourcesUrl$: "",
   jmp: (t) => t(),
@@ -268,7 +272,7 @@ var pn = "slot-fb{display:contents}slot-fb[hidden]{display:none}", oi = "http://
   }
   return !1;
 })(), er = Or ? !!D.document && Object.getOwnPropertyDescriptor(D.document.adoptedStyleSheets, "length").writable : !1, tr = !1, ni = [], vo = [], mn = (t, e) => (r) => {
-  t.push(r), tr || (tr = !0, e && P.$flags$ & 4 ? zr(rr) : P.raf(rr));
+  t.push(r), tr || (tr = !0, e && j.$flags$ & 4 ? zr(rr) : j.raf(rr));
 }, li = (t) => {
   for (let e = 0; e < t.length; e++)
     try {
@@ -278,7 +282,7 @@ var pn = "slot-fb{display:contents}slot-fb[hidden]{display:none}", oi = "http://
     }
   t.length = 0;
 }, rr = () => {
-  li(ni), li(vo), (tr = ni.length > 0) && P.raf(rr);
+  li(ni), li(vo), (tr = ni.length > 0) && j.raf(rr);
 }, zr = (t) => vn().then(t), yn = /* @__PURE__ */ mn(vo, !0);
 var Ue;
 function bn(t) {
@@ -379,7 +383,7 @@ var le = /* @__PURE__ */ new WeakMap(), On = (t, e, r) => {
       let a = le.get(t), c;
       if (a || le.set(t, a = /* @__PURE__ */ new Set()), !a.has(n)) {
         c = D.document.createElement("style"), c.textContent = l;
-        const d = (i = P.$nonce$) != null ? i : Rn(D.document);
+        const d = (i = j.$nonce$) != null ? i : Rn(D.document);
         if (d != null && c.setAttribute("nonce", d), !(e.$flags$ & 1))
           if (t.nodeName === "HEAD") {
             const h = t.querySelectorAll("link[rel=preconnect]"), u = h.length > 0 ? h[h.length - 1].nextSibling : t.querySelector("style");
@@ -457,7 +461,7 @@ var Dn = (t) => t != null && t !== void 0, Dr = (t) => (t = typeof t, t === "obj
   return r.$attrs$ = null, r.$key$ = null, r.$name$ = null, r;
 }, M = {}, Tn = (t) => t && t.$tag$ === M, kn = {
   forEach: (t, e) => t.map(ci).forEach(e),
-  map: (t, e) => t.map(ci).map(e).map(jn)
+  map: (t, e) => t.map(ci).map(e).map(Pn)
 }, ci = (t) => ({
   vattrs: t.$attrs$,
   vchildren: t.$children$,
@@ -465,7 +469,7 @@ var Dn = (t) => t != null && t !== void 0, Dr = (t) => (t = typeof t, t === "obj
   vname: t.$name$,
   vtag: t.$tag$,
   vtext: t.$text$
-}), jn = (t) => {
+}), Pn = (t) => {
   if (typeof t.vtag == "function") {
     const r = { ...t.vattrs };
     return t.vkey && (r.key = t.vkey), t.vname && (r.name = t.vname), f(t.vtag, r, ...t.vchildren || []);
@@ -473,7 +477,7 @@ var Dn = (t) => t != null && t !== void 0, Dr = (t) => (t = typeof t, t === "obj
   const e = bt(t.vtag, t.vtext);
   return e.$attrs$ = t.vattrs, e.$children$ = t.vchildren, e.$key$ = t.vkey, e.$name$ = t.vname, e;
 };
-var bo = "-shadowcsshost", Pn = "-shadowcssslotted", Ln = "-shadowcsscontext", Tr = ")(?:\\(((?:\\([^)(]*\\)|[^)(]*)+?)\\))?([^,{]*)", Gd = new RegExp("(" + bo + Tr, "gim"), Xd = new RegExp("(" + Ln + Tr, "gim"), Vd = new RegExp("(" + Pn + Tr, "gim"), Kd = bo + "-no-combinator";
+var bo = "-shadowcsshost", jn = "-shadowcssslotted", Ln = "-shadowcsscontext", Tr = ")(?:\\(((?:\\([^)(]*\\)|[^)(]*)+?)\\))?([^,{]*)", Gd = new RegExp("(" + bo + Tr, "gim"), Xd = new RegExp("(" + Ln + Tr, "gim"), Vd = new RegExp("(" + jn + Tr, "gim"), Kd = bo + "-no-combinator";
 var Fn = (t) => gn.map((e) => e(t)).find((e) => !!e), So = (t) => {
   if (!t) return;
   const e = Object.keys(t);
@@ -505,7 +509,7 @@ var Fn = (t) => gn.map((e) => e(t)).find((e) => !!e), So = (t) => {
     })
   };
 }, xo = (t, e, r) => {
-  const i = P.ce(e, r);
+  const i = j.ce(e, r);
   return t.dispatchEvent(i), i;
 }, di = (t, e, r, i, o, s, n) => {
   if (r === i)
@@ -525,7 +529,7 @@ var Fn = (t) => gn.map((e) => e(t)).find((e) => !!e), So = (t) => {
   else if (!t.__lookupSetter__(e) && e[0] === "o" && e[1] === "n") {
     if (e[2] === "-" ? e = e.slice(3) : ii(D, a) ? e = a.slice(2) : e = a[2] + e.slice(3), r || i) {
       const c = e.endsWith(Co);
-      e = e.replace(An, ""), r && P.rel(t, e, r, c), i && P.ael(t, e, i, c);
+      e = e.replace(An, ""), r && j.rel(t, e, r, c), i && j.ael(t, e, i, c);
     }
   } else if (e[0] === "a" && e.startsWith("attr:")) {
     const c = e.slice(5);
@@ -623,7 +627,7 @@ var pt, St, be, Je = !1, wt = !1, kt = !1, A = !1, sr = [], nr = [], xt = (t, e,
   }
   return n["s-hn"] = be, o.$flags$ & 3 && (n["s-sr"] = !0, n["s-cr"] = St, n["s-sn"] = o.$name$ || "", n["s-rf"] = (i = o.$attrs$) == null ? void 0 : i.ref, xn(n), a = t && t.$children$ && t.$children$[r], a && a.$tag$ === o.$tag$ && t.$elm$ && $o(t.$elm$), Do(St, n, e.$elm$, t?.$elm$)), n;
 }, $o = (t) => {
-  P.$flags$ |= 1;
+  j.$flags$ |= 1;
   const e = t.closest(be.toLowerCase());
   if (e != null) {
     const r = Array.from(e.__childNodes || e.childNodes).find(
@@ -634,9 +638,9 @@ var pt, St, be, Je = !1, wt = !1, kt = !1, A = !1, sr = [], nr = [], xt = (t, e,
     for (const o of r ? i.reverse() : i)
       o["s-sh"] != null && (U(e, o, r ?? null), o["s-sh"] = void 0, kt = !0);
   }
-  P.$flags$ &= -2;
+  j.$flags$ &= -2;
 }, Ct = (t, e) => {
-  P.$flags$ |= 1;
+  j.$flags$ |= 1;
   const r = Array.from(t.__childNodes || t.childNodes);
   if (t["s-sr"]) {
     let i = t;
@@ -647,7 +651,7 @@ var pt, St, be, Je = !1, wt = !1, kt = !1, A = !1, sr = [], nr = [], xt = (t, e,
     const o = r[i];
     o["s-hn"] !== be && o["s-ol"] && (U(Ze(o).parentNode, o, Ze(o)), o["s-ol"].remove(), o["s-ol"] = void 0, o["s-sh"] = void 0, kt = !0), e && Ct(o, e);
   }
-  P.$flags$ &= -2;
+  j.$flags$ &= -2;
 }, Ro = (t, e, r, i, o, s) => {
   let n = t["s-cr"] && t["s-cr"].parentNode || t, l;
   for (n.shadowRoot && n.tagName === be && (n = n.shadowRoot), r.$tag$ === "template" && (n = n.content); o <= s; ++o)
@@ -774,7 +778,7 @@ var Bn = (t, e, r = !1) => {
       a.hasAttribute(g) && !["key", "ref", "style", "class"].includes(g) && (u.$attrs$[g] = a[g]);
   u.$tag$ = null, u.$flags$ |= 4, t.$vnode$ = u, u.$elm$ = d.$elm$ = a.shadowRoot || a, pt = a["s-sc"], Je = !!(c.$flags$ & 1) && !(c.$flags$ & 128), St = a["s-cr"], wt = !1, De(d, u, r);
   {
-    if (P.$flags$ |= 1, kt) {
+    if (j.$flags$ |= 1, kt) {
       zo(u.$elm$);
       for (const g of Y) {
         const p = g.$nodeToRelocate$;
@@ -808,8 +812,8 @@ var Bn = (t, e, r = !1) => {
               b = b.previousSibling;
             }
           }
-          const C = p.__parentNode || p.parentNode, S = p.__nextSibling || p.nextSibling;
-          if ((!w && y !== C || S !== w) && p !== w) {
+          const x = p.__parentNode || p.parentNode, S = p.__nextSibling || p.nextSibling;
+          if ((!w && y !== x || S !== w) && p !== w) {
             if (U(y, p, w, r), p.nodeType === 8 && p.nodeValue.startsWith("s-nt-")) {
               const b = D.document.createTextNode(p.nodeValue.replace(/^s-nt-/, ""));
               b["s-hn"] = p["s-hn"], b["s-sn"] = p["s-sn"], b["s-sh"] = p["s-sh"], b["s-sr"] = p["s-sr"], b["s-ol"] = p["s-ol"], b["s-ol"]["s-nr"] = b, U(p.parentNode, b, p, r), p.parentNode.removeChild(p);
@@ -820,7 +824,7 @@ var Bn = (t, e, r = !1) => {
         } else p.nodeType === 1 && (p.hidden = !0);
       }
     }
-    wt && mo(u.$elm$), P.$flags$ &= -2, Y.length = 0;
+    wt && mo(u.$elm$), j.$flags$ &= -2, Y.length = 0;
   }
   if (!Je && !(c.$flags$ & 1) && a["s-cr"]) {
     const g = u.$elm$.__childNodes || u.$elm$.childNodes;
@@ -845,7 +849,7 @@ var Bn = (t, e, r = !1) => {
       )
     );
   }
-}, jt = (t, e) => {
+}, Pt = (t, e) => {
   if (t.$flags$ |= 16, t.$flags$ & 4) {
     t.$flags$ |= 512;
     return;
@@ -866,7 +870,7 @@ var Bn = (t, e, r = !1) => {
       `Can't render component <${r.tagName.toLowerCase()} /> with invalid Stencil runtime! Make sure this imported component is compiled with a \`externalRuntime: true\` flag. For more information, please refer to https://stenciljs.com/docs/custom-elements#externalruntime`
     );
   let s;
-  return e ? s = Pe(o, "componentWillLoad", void 0, r) : s = Pe(o, "componentWillUpdate", void 0, r), s = gi(s, () => Pe(o, "componentWillRender", void 0, r)), i(), gi(s, () => Gn(t, o, e));
+  return e ? s = je(o, "componentWillLoad", void 0, r) : s = je(o, "componentWillUpdate", void 0, r), s = gi(s, () => je(o, "componentWillRender", void 0, r)), i(), gi(s, () => Gn(t, o, e));
 }, gi = (t, e) => Un(t) ? t.then(e).catch((r) => {
   console.error(r), e();
 }) : e(), Un = (t) => t instanceof Promise || t && t.then && typeof t.then == "function", Gn = async (t, e, r) => {
@@ -888,16 +892,16 @@ var Bn = (t, e, r = !1) => {
   return lr = null, null;
 }, Vn = () => lr, Kn = (t) => {
   const e = t.$cmpMeta$.$tagName$, r = t.$hostElement$, i = ye("postUpdate", e), o = r, s = t.$ancestorComponent$;
-  Pe(o, "componentDidRender", void 0, r), t.$flags$ & 64 ? (Pe(o, "componentDidUpdate", void 0, r), i()) : (t.$flags$ |= 64, Jn(r), Pe(o, "componentDidLoad", void 0, r), i(), t.$onReadyResolve$(r), s || qn()), t.$onRenderResolve$ && (t.$onRenderResolve$(), t.$onRenderResolve$ = void 0), t.$flags$ & 512 && zr(() => jt(t, !1)), t.$flags$ &= -517;
+  je(o, "componentDidRender", void 0, r), t.$flags$ & 64 ? (je(o, "componentDidUpdate", void 0, r), i()) : (t.$flags$ |= 64, Jn(r), je(o, "componentDidLoad", void 0, r), i(), t.$onReadyResolve$(r), s || qn()), t.$onRenderResolve$ && (t.$onRenderResolve$(), t.$onRenderResolve$ = void 0), t.$flags$ & 512 && zr(() => Pt(t, !1)), t.$flags$ &= -517;
 }, Yn = (t) => {
   var e;
   {
     const r = te(t), i = (e = r?.$hostElement$) == null ? void 0 : e.isConnected;
-    return i && (r.$flags$ & 18) === 2 && jt(r, !1), i;
+    return i && (r.$flags$ & 18) === 2 && Pt(r, !1), i;
   }
 }, qn = (t) => {
   zr(() => xo(D, "appload", { detail: { namespace: an } }));
-}, Pe = (t, e, r, i) => {
+}, je = (t, e, r, i) => {
   if (t && t[e])
     try {
       return t[e](r);
@@ -947,7 +951,7 @@ var Bn = (t, e, r = !1) => {
     if (l & 2) {
       if (a.componentShouldUpdate && a.componentShouldUpdate(r, n, e) === !1 && !(l & 16))
         return;
-      l & 16 || jt(o, !1);
+      l & 16 || Pt(o, !1);
     }
   }
 }, Qn = (t, e, r) => {
@@ -990,19 +994,19 @@ var Bn = (t, e, r = !1) => {
     {
       const l = /* @__PURE__ */ new Map();
       s.attributeChangedCallback = function(a, c, d) {
-        P.jmp(() => {
+        j.jmp(() => {
           var h;
           const u = l.get(a), g = te(this);
           if (O.serializer && g.$serializerValues$.has(u) && g.$serializerValues$.get(u) === d)
             return;
           if (this.hasOwnProperty(u) && O.lazyLoad, O.deserializer && e.$deserializers$ && e.$deserializers$[u]) {
-            const C = (S, b) => {
+            const x = (S, b) => {
               const $ = b?.[S](d, u);
               $ !== this[u] && (this[u] = $);
             };
             for (const S of e.$deserializers$[u]) {
               const [[b]] = Object.entries(S);
-              C(b, this);
+              x(b, this);
             }
             return;
           } else {
@@ -1010,18 +1014,18 @@ var Bn = (t, e, r = !1) => {
             this[u] == d)
               return;
             if (u == null) {
-              const C = g?.$flags$;
-              if (g && C && !(C & 8) && d !== c) {
+              const x = g?.$flags$;
+              if (g && x && !(x & 8) && d !== c) {
                 const b = this, $ = (h = e.$watchers$) == null ? void 0 : h[a];
                 $?.forEach((R) => {
                   const [[z, ie]] = Object.entries(R);
-                  b[z] != null && (C & 128 || ie & 1) && b[z].call(b, d, c, a);
+                  b[z] != null && (x & 128 || ie & 1) && b[z].call(b, d, c, a);
                 });
               }
               return;
             }
           }
-          const p = n.find(([C]) => C === u), v = p && p[1][0] & 4, y = v && d === null && this[u] === void 0;
+          const p = n.find(([x]) => x === u), v = p && p[1][0] & 4, y = v && d === null && this[u] === void 0;
           v && (d = !(d === null || d === "false"));
           const w = Object.getOwnPropertyDescriptor(s, u);
           !y && d != this[u] && (!w.get || w.set) && (this[u] = d);
@@ -1066,14 +1070,14 @@ var Bn = (t, e, r = !1) => {
         }
       }
     }
-    const s = e.$ancestorComponent$, n = () => jt(e, !0);
+    const s = e.$ancestorComponent$, n = () => Pt(e, !0);
     O.asyncLoading && s && s["s-rc"] ? s["s-rc"].push(n) : n();
   } catch (s) {
     we(s, t), e.$onRenderResolve$ && (e.$onRenderResolve$(), e.$onRenderResolve$ = void 0), e.$onReadyResolve$ && e.$onReadyResolve$(t);
   }
 }, fi = (t, e) => {
 }, tl = (t) => {
-  if ((P.$flags$ & 1) === 0) {
+  if ((j.$flags$ & 1) === 0) {
     const e = te(t);
     if (!e)
       return;
@@ -1108,7 +1112,7 @@ var Bn = (t, e, r = !1) => {
   );
   e["s-cn"] = !0, U(t, e, t.firstChild);
 }, il = async (t) => {
-  if ((P.$flags$ & 1) === 0) {
+  if ((j.$flags$ & 1) === 0) {
     const e = te(t);
     e?.$rmListeners$ && (e.$rmListeners$.map((r) => r()), e.$rmListeners$ = void 0);
   }
@@ -1163,7 +1167,7 @@ var Bn = (t, e, r = !1) => {
 }, ko = (t, e, r, i) => {
   r && D.document && r.map(([o, s, n]) => {
     const l = sl(D.document, t, o), a = ol(e, n), c = nl(o);
-    P.ael(l, s, a, c), (e.$rmListeners$ = e.$rmListeners$ || []).push(() => P.rel(l, s, a, c));
+    j.ael(l, s, a, c), (e.$rmListeners$ = e.$rmListeners$ || []).push(() => j.rel(l, s, a, c));
   });
 }, ol = (t, e) => (r) => {
   var i;
@@ -1176,7 +1180,7 @@ var Bn = (t, e, r = !1) => {
   passive: (t & 1) !== 0,
   capture: (t & 2) !== 0
 } : (t & 2) !== 0;
-var jo = typeof global == "object" && global && global.Object === Object && global, ll = typeof self == "object" && self && self.Object === Object && self, V = jo || ll || Function("return this")(), he = V.Symbol, Po = Object.prototype, al = Po.hasOwnProperty, cl = Po.toString, Ge = he ? he.toStringTag : void 0, dl = Object.prototype.toString, vi = he ? he.toStringTag : void 0;
+var Po = typeof global == "object" && global && global.Object === Object && global, ll = typeof self == "object" && self && self.Object === Object && self, V = Po || ll || Function("return this")(), he = V.Symbol, jo = Object.prototype, al = jo.hasOwnProperty, cl = jo.toString, Ge = he ? he.toStringTag : void 0, dl = Object.prototype.toString, vi = he ? he.toStringTag : void 0;
 function Me(t) {
   return t == null ? t === void 0 ? "[object Undefined]" : "[object Null]" : vi && vi in Object(t) ? (function(e) {
     var r = al.call(e, Ge), i = e[Ge];
@@ -1339,8 +1343,8 @@ function wi(t, e, r, i, o, s) {
       break;
     }
     if (g) {
-      if (!$l(e, (function(w, C) {
-        if (!g.has(C) && (p === w || o(p, w, r, i, s))) return g.push(C);
+      if (!$l(e, (function(w, x) {
+        if (!g.has(x) && (p === w || o(p, w, r, i, s))) return g.push(x);
       }))) {
         u = !1;
         break;
@@ -1438,16 +1442,16 @@ var Fo = Object.prototype, Dl = Fo.hasOwnProperty, Tl = Fo.propertyIsEnumerable,
 }, _o = typeof exports == "object" && exports && !exports.nodeType && exports, Oi = _o && typeof module == "object" && module && !module.nodeType && module, zi = Oi && Oi.exports === _o ? V.Buffer : void 0, dr = (zi ? zi.isBuffer : void 0) || function() {
   return !1;
 }, kl = /^(?:0|[1-9]\d*)$/;
-function jr(t, e) {
+function Pr(t, e) {
   var r = typeof t;
   return !!(e = e ?? 9007199254740991) && (r == "number" || r != "symbol" && kl.test(t)) && t > -1 && t % 1 == 0 && t < e;
 }
-function Pr(t) {
+function jr(t) {
   return typeof t == "number" && t > -1 && t % 1 == 0 && t <= 9007199254740991;
 }
 var E = {};
 E["[object Float32Array]"] = E["[object Float64Array]"] = E["[object Int8Array]"] = E["[object Int16Array]"] = E["[object Int32Array]"] = E["[object Uint8Array]"] = E["[object Uint8ClampedArray]"] = E["[object Uint16Array]"] = E["[object Uint32Array]"] = !0, E["[object Arguments]"] = E["[object Array]"] = E["[object ArrayBuffer]"] = E["[object Boolean]"] = E["[object DataView]"] = E["[object Date]"] = E["[object Error]"] = E["[object Function]"] = E["[object Map]"] = E["[object Number]"] = E["[object Object]"] = E["[object RegExp]"] = E["[object Set]"] = E["[object String]"] = E["[object WeakMap]"] = !1;
-var Ei, Ao = typeof exports == "object" && exports && !exports.nodeType && exports, Ye = Ao && typeof module == "object" && module && !module.nodeType && module, Nt = Ye && Ye.exports === Ao && jo.process, Di = (function() {
+var Ei, Ao = typeof exports == "object" && exports && !exports.nodeType && exports, Ye = Ao && typeof module == "object" && module && !module.nodeType && module, Nt = Ye && Ye.exports === Ao && Po.process, Di = (function() {
   try {
     return Ye && Ye.require && Ye.require("util").types || Nt && Nt.binding && Nt.binding("util");
   } catch {
@@ -1455,14 +1459,14 @@ var Ei, Ao = typeof exports == "object" && exports && !exports.nodeType && expor
 })(), Ti = Di && Di.isTypedArray, Ho = Ti ? (Ei = Ti, function(t) {
   return Ei(t);
 }) : function(t) {
-  return Ie(t) && Pr(t.length) && !!E[Me(t)];
-}, jl = Object.prototype.hasOwnProperty, Pl = Object.prototype, Ll = /* @__PURE__ */ (function(t, e) {
+  return Ie(t) && jr(t.length) && !!E[Me(t)];
+}, Pl = Object.prototype.hasOwnProperty, jl = Object.prototype, Ll = /* @__PURE__ */ (function(t, e) {
   return function(r) {
     return t(e(r));
   };
 })(Object.keys, Object), Fl = Object.prototype.hasOwnProperty;
 function Lr(t) {
-  return t != null && Pr(t.length) && !Lo(t);
+  return t != null && jr(t.length) && !Lo(t);
 }
 function Fr(t) {
   return Lr(t) ? (function(e) {
@@ -1470,10 +1474,10 @@ function Fr(t) {
       for (var u = -1, g = Array(d); ++u < d; ) g[u] = h(u);
       return g;
     })(e.length, String) : [], a = l.length;
-    for (var c in e) !jl.call(e, c) || n && (c == "length" || o && (c == "offset" || c == "parent") || s && (c == "buffer" || c == "byteLength" || c == "byteOffset") || jr(c, a)) || l.push(c);
+    for (var c in e) !Pl.call(e, c) || n && (c == "length" || o && (c == "offset" || c == "parent") || s && (c == "buffer" || c == "byteLength" || c == "byteOffset") || Pr(c, a)) || l.push(c);
     return l;
   })(t) : (function(e) {
-    if ((r = e) !== (typeof (i = r && r.constructor) == "function" && i.prototype || Pl)) return Ll(e);
+    if ((r = e) !== (typeof (i = r && r.constructor) == "function" && i.prototype || jl)) return Ll(e);
     var r, i, o = [];
     for (var s in Object(e)) Fl.call(e, s) && s != "constructor" && o.push(s);
     return o;
@@ -1488,16 +1492,16 @@ function ki(t) {
     })(o, i(e));
   })(t, 0, El);
 }
-var Il = Object.prototype.hasOwnProperty, hr = Ne(V, "DataView"), ur = Ne(V, "Promise"), gr = Ne(V, "Set"), pr = Ne(V, "WeakMap"), ji = "[object Map]", Pi = "[object Promise]", Li = "[object Set]", Fi = "[object WeakMap]", Ii = "[object DataView]", _l = xe(hr), Al = xe(Qe), Hl = xe(ur), Ml = xe(gr), Nl = xe(pr), ne = Me;
-(hr && ne(new hr(new ArrayBuffer(1))) != Ii || Qe && ne(new Qe()) != ji || ur && ne(ur.resolve()) != Pi || gr && ne(new gr()) != Li || pr && ne(new pr()) != Fi) && (ne = function(t) {
+var Il = Object.prototype.hasOwnProperty, hr = Ne(V, "DataView"), ur = Ne(V, "Promise"), gr = Ne(V, "Set"), pr = Ne(V, "WeakMap"), Pi = "[object Map]", ji = "[object Promise]", Li = "[object Set]", Fi = "[object WeakMap]", Ii = "[object DataView]", _l = xe(hr), Al = xe(Qe), Hl = xe(ur), Ml = xe(gr), Nl = xe(pr), ne = Me;
+(hr && ne(new hr(new ArrayBuffer(1))) != Ii || Qe && ne(new Qe()) != Pi || ur && ne(ur.resolve()) != ji || gr && ne(new gr()) != Li || pr && ne(new pr()) != Fi) && (ne = function(t) {
   var e = Me(t), r = e == "[object Object]" ? t.constructor : void 0, i = r ? xe(r) : "";
   if (i) switch (i) {
     case _l:
       return Ii;
     case Al:
-      return ji;
-    case Hl:
       return Pi;
+    case Hl:
+      return ji;
     case Ml:
       return Li;
     case Nl:
@@ -1544,9 +1548,9 @@ function Ir(t, e, r, i, o) {
       return !1;
     })(s, n, g, l, a, c, d);
     if (!(1 & l)) {
-      var C = v && Hi.call(s, "__wrapped__"), S = y && Hi.call(n, "__wrapped__");
-      if (C || S) {
-        var b = C ? s.value() : s, $ = S ? n.value() : n;
+      var x = v && Hi.call(s, "__wrapped__"), S = y && Hi.call(n, "__wrapped__");
+      if (x || S) {
+        var b = x ? s.value() : s, $ = S ? n.value() : n;
         return d || (d = new Z()), c(b, $, l, a, d);
       }
     }
@@ -1651,7 +1655,7 @@ function Kl(t, e) {
           if (!(h = n != null && a(n, u))) break;
           n = n[u];
         }
-        return h || ++c != d ? h : !!(d = n == null ? 0 : n.length) && Pr(d) && jr(u, d) && (H(n) || Io(n));
+        return h || ++c != d ? h : !!(d = n == null ? 0 : n.length) && jr(d) && Pr(u, d) && (H(n) || Io(n));
       })(o, s, Vl);
     })(r, t) : Ir(e, i, 3);
   };
@@ -1699,7 +1703,7 @@ var ql = Math.ceil, Jl = Math.max;
 function Xo(t, e, r) {
   if (!ue(r)) return !1;
   var i = typeof e;
-  return !!(i == "number" ? Lr(r) && jr(e, r.length) : i == "string" && e in r) && kr(r[e], t);
+  return !!(i == "number" ? Lr(r) && Pr(e, r.length) : i == "string" && e in r) && kr(r[e], t);
 }
 const Bi = /* @__PURE__ */ (() => {
   let t;
@@ -1720,7 +1724,7 @@ const Bi = /* @__PURE__ */ (() => {
 })(), Wi = Yn, Ui = Vn, Ut = (t, e) => {
   const r = t.indexOf(e);
   r >= 0 && (t[r] = t[t.length - 1], t.length--);
-}, Pt = (t, e) => {
+}, jt = (t, e) => {
   const r = ((i, o = (s, n) => s !== n) => {
     const s = () => {
       return (typeof (S = i) == "function" ? S() : S) ?? {};
@@ -1728,11 +1732,11 @@ const Bi = /* @__PURE__ */ (() => {
     }, n = s();
     let l = new Map(Object.entries(n));
     const a = typeof Proxy < "u", c = a ? null : {}, d = { dispose: [], get: [], set: [], reset: [] }, h = /* @__PURE__ */ new Map(), u = () => {
-      l = new Map(Object.entries(s())), a || C(), d.reset.forEach(((S) => S()));
+      l = new Map(Object.entries(s())), a || x(), d.reset.forEach(((S) => S()));
     }, g = (S) => (d.get.forEach(((b) => b(S))), l.get(S)), p = (S, b) => {
       const $ = l.get(S);
       o(b, $, S) && (l.set(S, b), a || w(S), d.set.forEach(((R) => R(S, b, $))));
-    }, v = a ? new Proxy(n, { get: (S, b) => g(b), ownKeys: () => Array.from(l.keys()), getOwnPropertyDescriptor: () => ({ enumerable: !0, configurable: !0 }), has: (S, b) => l.has(b), set: (S, b, $) => (p(b, $), !0) }) : (C(), c), y = (S, b) => (d[S].push(b), () => {
+    }, v = a ? new Proxy(n, { get: (S, b) => g(b), ownKeys: () => Array.from(l.keys()), getOwnPropertyDescriptor: () => ({ enumerable: !0, configurable: !0 }), has: (S, b) => l.has(b), set: (S, b, $) => (p(b, $), !0) }) : (x(), c), y = (S, b) => (d[S].push(b), () => {
       Ut(d[S], b);
     });
     function w(S) {
@@ -1740,7 +1744,7 @@ const Bi = /* @__PURE__ */ (() => {
         p(S, b);
       } }));
     }
-    function C() {
+    function x() {
       if (a || !c) return;
       const S = new Set(l.keys());
       for (const b of Object.keys(c)) S.has(b) || delete c[b];
@@ -1808,7 +1812,7 @@ function Mr(t) {
   for (let r in t) for (let i in t[r]) e[i] = e[i] || t[r][i];
   return e;
 }
-function j(t, e) {
+function P(t, e) {
   for (const r of Object.keys(e)) t.set(r, e[r]);
 }
 class Rt {
@@ -1816,7 +1820,7 @@ class Rt {
     return this.dataStore;
   }
   constructor(e, r) {
-    const i = this.dataStore = Pt(Object.assign({ items: [], proxyItems: [], source: [], groupingDepth: 0, groups: {}, type: e, trimmed: {}, groupingCustomRenderer: void 0 }, r));
+    const i = this.dataStore = jt(Object.assign({ items: [], proxyItems: [], source: [], groupingDepth: 0, groups: {}, type: e, trimmed: {}, groupingCustomRenderer: void 0 }, r));
     i.use(ml(i)), i.use(Zl(i));
   }
   updateData(e, r, i = !1, o = !1) {
@@ -1827,18 +1831,18 @@ class Rt {
       return y;
     })(a, c, d = d === void 0 ? a < c ? 1 : -1 : vt(d)));
     var a, c, d;
-    j(this.store, { source: e, proxyItems: [...l] }), this.store.set("items", n ? l.filter(((h) => !n[h])) : l), r && j(this.store, { groupingDepth: r.depth, groups: r.groups, groupingCustomRenderer: r.customRenderer });
+    P(this.store, { source: e, proxyItems: [...l] }), this.store.set("items", n ? l.filter(((h) => !n[h])) : l), r && P(this.store, { groupingDepth: r.depth, groups: r.groups, groupingCustomRenderer: r.customRenderer });
   }
   addTrimmed(e) {
     let r = this.store.get("trimmed");
-    r = Object.assign(Object.assign({}, r), e), j(this.store, { trimmed: r });
+    r = Object.assign(Object.assign({}, r), e), P(this.store, { trimmed: r });
   }
   setSourceData(e, r = !0) {
     Vo(this.store, e, r);
   }
   setData(e) {
     const r = Object.assign({}, e);
-    j(this.store, r);
+    P(this.store, r);
   }
   refresh() {
     const e = this.store.get("source");
@@ -2203,28 +2207,28 @@ var Vt = function() {
 function Ce(t, e, r) {
   var i, o, s, n, l, a, c = 0, d = !1, h = !1, u = !0;
   if (typeof t != "function") throw new TypeError("Expected a function");
-  function g(C) {
+  function g(x) {
     var S = i, b = o;
-    return i = o = void 0, c = C, n = t.apply(b, S);
+    return i = o = void 0, c = x, n = t.apply(b, S);
   }
-  function p(C) {
-    var S = C - a;
-    return a === void 0 || S >= e || S < 0 || h && C - c >= s;
+  function p(x) {
+    var S = x - a;
+    return a === void 0 || S >= e || S < 0 || h && x - c >= s;
   }
   function v() {
-    var C = Vt();
-    if (p(C)) return y(C);
+    var x = Vt();
+    if (p(x)) return y(x);
     l = setTimeout(v, (function(S) {
       var b = e - (S - a);
       return h ? Ea(b, s - (S - c)) : b;
-    })(C));
+    })(x));
   }
-  function y(C) {
-    return l = void 0, u && i ? g(C) : (i = o = void 0, n);
+  function y(x) {
+    return l = void 0, u && i ? g(x) : (i = o = void 0, n);
   }
   function w() {
-    var C = Vt(), S = p(C);
-    if (i = arguments, o = this, a = C, S) {
+    var x = Vt(), S = p(x);
+    if (i = arguments, o = this, a = x, S) {
       if (l === void 0) return (function(b) {
         return c = b, l = setTimeout(v, e), d ? g(b) : n;
       })(a);
@@ -2378,16 +2382,16 @@ function vs(t, e) {
       var h = 0, u = a == null ? 0 : a.length;
       if (u === 0) return 0;
       for (var g = (c = d(c)) != c, p = c === null, v = me(c), y = c === void 0; h < u; ) {
-        var w = Ta((h + u) / 2), C = d(a[w]), S = C !== void 0, b = C === null, $ = C == C, R = me(C);
+        var w = Ta((h + u) / 2), x = d(a[w]), S = x !== void 0, b = x === null, $ = x == x, R = me(x);
         if (g) var z = $;
-        else z = y ? $ && S : p ? $ && S && !b : v ? $ && S && !b && !R : !b && !R && C < c;
+        else z = y ? $ && S : p ? $ && S && !b : v ? $ && S && !b && !R : !b && !R && x < c;
         z ? h = w + 1 : u = w;
       }
       return ka(u, 4294967294);
     })(r, i, Hr);
   })(t, e);
 }
-function ja(t, e = {}) {
+function Pa(t, e = {}) {
   const r = [], i = {}, o = {}, s = Object.keys(e).map(Number).sort(((l, a) => l - a));
   let n;
   for (let l = 0; l < s.length; l++) {
@@ -2417,7 +2421,7 @@ function ms(t, e, r) {
   if (typeof t != "function") throw new TypeError("Expected a function");
   return ue(r) && (i = "leading" in r ? !!r.leading : i, o = "trailing" in r ? !!r.trailing : o), Ce(t, e, { leading: i, maxWait: e, trailing: o });
 }
-const It = "header", ys = "footer", bs = "content", Pa = "data";
+const It = "header", ys = "footer", bs = "content", ja = "data";
 function La(t, e) {
   return { x: t.viewports[t.colType].store.get("realCount"), y: t.viewports[e].store.get("realCount") };
 }
@@ -2724,9 +2728,9 @@ const Ua = I(class extends L {
       for (let g of e) {
         const p = Object.assign(Object.assign({}, this.columnService.rowDataModel(a.itemIndex, g.itemIndex)), { providers: this.providers }), v = this.triggerBeforeCellRender(p, a, g);
         if (v.defaultPrevented) continue;
-        const { detail: { column: y, row: w, model: C } } = v, S = { [qo]: y.itemIndex, [Jo]: w.itemIndex, style: { width: `${y.size}px`, transform: `translateX(${y.start - l}px)`, height: w.size ? `${w.size}px` : void 0 } };
+        const { detail: { column: y, row: w, model: x } } = v, S = { [qo]: y.itemIndex, [Jo]: w.itemIndex, style: { width: `${y.size}px`, transform: `translateX(${y.start - l}px)`, height: w.size ? `${w.size}px` : void 0 } };
         s && !y.itemIndex && S.style && (S.style.paddingLeft = 10 * s + "px");
-        const b = this.columnService.mergeProperties(w.itemIndex, y.itemIndex, S, C), $ = f(Ba, { renderProps: { schemaModel: C, additionalData: this.additionalData, dragStartCell: this.dragStartCell }, cellProps: b });
+        const b = this.columnService.mergeProperties(w.itemIndex, y.itemIndex, S, x), $ = f(Ba, { renderProps: { schemaModel: x, additionalData: this.additionalData, dragStartCell: this.dragStartCell }, cellProps: b });
         d.push($);
       }
       let h = this.rowClass ? this.columnService.getRowClass(a.itemIndex, this.rowClass) : "";
@@ -3024,7 +3028,7 @@ function nc(t, e, r, i, o) {
     c.length && Ts(l.items, c, l);
   }
   if (!l) {
-    const c = js({ firstItemStart: s.start, firstItemIndex: s.itemIndex, origSize: o.originItemSize, maxSize: a, maxCount: r, sizes: o.sizes });
+    const c = Ps({ firstItemStart: s.start, firstItemIndex: s.itemIndex, origSize: o.originItemSize, maxSize: a, maxCount: r, sizes: o.sizes });
     l = { items: c, start: 0, end: c.length - 1 };
   }
   return l;
@@ -3034,9 +3038,9 @@ function Ts(t, e, r) {
 }
 function ks(t, e, r, i, o) {
   const s = Xr(i);
-  return js({ sizes: o.sizes, firstItemStart: s.end, firstItemIndex: s.itemIndex + 1, origSize: o.originItemSize, maxSize: r - (s.end - t.start), maxCount: e });
+  return Ps({ sizes: o.sizes, firstItemStart: s.end, firstItemIndex: s.itemIndex + 1, origSize: o.originItemSize, maxSize: r - (s.end - t.start), maxCount: e });
 }
-function js(t, e = 0) {
+function Ps(t, e = 0) {
   const r = [];
   let i = t.firstItemIndex, o = e;
   for (; o <= t.maxSize && i < t.maxCount; ) {
@@ -3103,7 +3107,7 @@ function dc(t, e, r, i) {
   }
   return o;
 }
-class Ps {
+class js {
   get lastCoordinate() {
     return this.lastKnownScroll;
   }
@@ -3111,7 +3115,7 @@ class Ps {
     this.lastKnownScroll = e;
   }
   constructor(e) {
-    this.type = e, this.lastKnownScroll = 0, this.store = Pt({ items: [], start: 0, end: 0, virtualSize: 0, realCount: 0, clientSize: 0, renderOffset: 0 });
+    this.type = e, this.lastKnownScroll = 0, this.store = jt({ items: [], start: 0, end: 0, virtualSize: 0, realCount: 0, clientSize: 0, renderOffset: 0 });
   }
   setViewPortCoordinate(e, r, i = !1) {
     const o = this.store.get("virtualSize");
@@ -3133,13 +3137,13 @@ class Ps {
   }
   setOriginalSizes(e) {
     const r = this.store.get("items");
-    r.length && j(this.store, { items: dc(r, this.store.get("start"), e, this.lastCoordinate) });
+    r.length && P(this.store, { items: dc(r, this.store.get("start"), e, this.lastCoordinate) });
   }
   getItems() {
     return { items: this.store.get("items"), start: this.store.get("start"), end: this.store.get("end") };
   }
   setViewport(e) {
-    typeof e.realCount != "number" && typeof e.virtualSize != "number" || (e = Object.assign(Object.assign({}, e), { items: e.items || [] })), j(this.store, e);
+    typeof e.realCount != "number" && typeof e.virtualSize != "number" || (e = Object.assign(Object.assign({}, e), { items: e.items || [] })), P(this.store, e);
   }
 }
 const hc = (t) => (e, { rowIndex: r }) => t + r, uc = I(class extends L {
@@ -3147,7 +3151,7 @@ const hc = (t) => (e, { rowIndex: r }) => t + r, uc = I(class extends L {
     super(), t !== !1 && this.__registerHost(), this.scrollViewport = m(this, "scrollview", 3), this.elementToScroll = m(this, "ref", 3), this.jobsBeforeRender = [];
   }
   render() {
-    const t = [], e = new Ps("colPinStart");
+    const t = [], e = new js("colPinStart");
     let r = 1;
     for (let n of this.dataPorts) {
       const l = n.dataStore.get("items").length, a = new Rt(n.type, Object.assign({}, n.dataStore.state)), c = new Rt("colPinStart"), d = Object.assign({ cellTemplate: hc(r) }, this.rowHeaderColumn);
@@ -3564,7 +3568,7 @@ function Ws() {
   }));
 }
 const kc = [T.TAB, T.ARROW_UP, T.ARROW_DOWN, T.ARROW_LEFT, T.ARROW_RIGHT];
-class jc {
+class Pc {
   constructor(e) {
     this.sv = e;
   }
@@ -3624,7 +3628,7 @@ class jc {
     }
   }
 }
-class Pc {
+class jc {
   constructor(e) {
     this.sv = e, this.autoFillType = null, this.autoFillInitial = null, this.autoFillStart = null, this.autoFillLast = null;
   }
@@ -3713,13 +3717,13 @@ const Lc = I(class extends L {
     t.defaultPrevented || r.defaultPrevented || (e = this.keyboardService) === null || e === void 0 || e.keyDown(t, this.range, !!this.selectionStore.get("edit"), { focus: this.selectionStore.get("focus"), range: this.selectionStore.get("range") });
   }
   selectionServiceSet(t) {
-    this.unsubscribeSelectionStore.forEach(((e) => e())), this.unsubscribeSelectionStore.length = 0, this.unsubscribeSelectionStore.push(t.onChange("nextFocus", ((e) => e && this.doFocus(e, e)))), this.keyboardService = new jc({ selectionStore: t, range: (e) => !!e && this.triggerRangeEvent(e), focus: (e, r, i) => i ? (this.beforeNextViewportFocus.emit(e), !1) : this.doFocus(e, e, r), change: (e) => this.doEdit(e), cancel: async () => {
+    this.unsubscribeSelectionStore.forEach(((e) => e())), this.unsubscribeSelectionStore.length = 0, this.unsubscribeSelectionStore.push(t.onChange("nextFocus", ((e) => e && this.doFocus(e, e)))), this.keyboardService = new Pc({ selectionStore: t, range: (e) => !!e && this.triggerRangeEvent(e), focus: (e, r, i) => i ? (this.beforeNextViewportFocus.emit(e), !1) : this.doFocus(e, e, r), change: (e) => this.doEdit(e), cancel: async () => {
       var e;
       await ((e = this.revogrEdit) === null || e === void 0 ? void 0 : e.cancelChanges()), this.closeEdit();
     }, clearCell: () => !this.readonly && this.clearCell(), internalPaste: () => !this.readonly && this.beforeRegionPaste.emit(), getData: () => this.getData(), selectAll: () => this.selectAll.emit() }), this.createAutoFillService();
   }
   createAutoFillService() {
-    this.autoFillService = new Pc({ dimensionRow: this.dimensionRow, dimensionCol: this.dimensionCol, columnService: this.columnService, dataStore: this.dataStore, clearRangeDataApply: (t) => this.beforeRangeDataApply.emit(Object.assign(Object.assign(Object.assign({}, t), this.types), { rowDimension: Object.assign({}, this.dimensionRow.state), colDimension: Object.assign({}, this.dimensionCol.state) })), setTempRange: (t) => {
+    this.autoFillService = new jc({ dimensionRow: this.dimensionRow, dimensionCol: this.dimensionCol, columnService: this.columnService, dataStore: this.dataStore, clearRangeDataApply: (t) => this.beforeRangeDataApply.emit(Object.assign(Object.assign(Object.assign({}, t), this.types), { rowDimension: Object.assign({}, this.dimensionRow.state), colDimension: Object.assign({}, this.dimensionCol.state) })), setTempRange: (t) => {
       const e = this.beforeSetTempRange.emit(Object.assign(Object.assign({ tempRange: t }, this.getData()), this.types));
       return e.defaultPrevented ? null : this.setTempRange.emit(e.detail.tempRange);
     }, selectionChanged: (t) => this.selectionChange.emit(t), rangeCopy: (t) => this.beforeRangeCopyApply.emit(t), rangeDataApply: (t) => this.rangeEditApply.emit(t), setRange: (t) => !!t && this.triggerRangeEvent(t), getData: () => this.getData() });
@@ -4089,7 +4093,7 @@ function Kt() {
 }
 class Kc {
   constructor(e) {
-    this.type = e, this.store = Pt(Kt()), this.store.use(/* @__PURE__ */ ((r) => {
+    this.type = e, this.store = jt(Kt()), this.store.use(/* @__PURE__ */ ((r) => {
       let i = null, o = null;
       return { set(s, n) {
         switch (s) {
@@ -4126,17 +4130,17 @@ class Kc {
     }), e);
   }
   dispose() {
-    j(this.store, Kt());
+    P(this.store, Kt());
   }
   setStore(e) {
-    j(this.store, e);
+    P(this.store, e);
   }
   drop() {
-    j(this.store, Object.assign(Object.assign({}, { indexes: [], count: 0, trimmed: null, sizes: {}, positionIndexToItem: {}, indexToItem: {}, positionIndexes: [] }), { renderOffset: 0 }));
+    P(this.store, Object.assign(Object.assign({}, { indexes: [], count: 0, trimmed: null, sizes: {}, positionIndexToItem: {}, indexToItem: {}, positionIndexes: [] }), { renderOffset: 0 }));
   }
   setDimensionSize(e = {}) {
-    const r = ja(this.store.get("originItemSize"), e);
-    j(this.store, Object.assign(Object.assign({}, r), { sizes: e }));
+    const r = Pa(this.store.get("originItemSize"), e);
+    P(this.store, Object.assign(Object.assign({}, r), { sizes: e }));
   }
   updateSizesPositionByIndexes(e, r = []) {
     const i = Object.assign({}, this.store.get("sizes"));
@@ -4157,7 +4161,7 @@ class Kc {
 }
 class Yt {
   constructor() {
-    this.unsubscribe = [], this.store = Pt({ range: null, tempRange: null, tempRangeType: null, focus: null, edit: null, lastCell: null, nextFocus: null }), this.store.on("set", ((e, r) => {
+    this.unsubscribe = [], this.store = jt({ range: null, tempRange: null, tempRangeType: null, focus: null, edit: null, lastCell: null, nextFocus: null }), this.store.on("set", ((e, r) => {
       e !== "tempRange" || r || this.store.set("tempRangeType", null);
     }));
   }
@@ -4165,33 +4169,33 @@ class Yt {
     this.unsubscribe.push(this.store.onChange(e, r));
   }
   clearFocus() {
-    j(this.store, { focus: null, range: null, edit: null, tempRange: null });
+    P(this.store, { focus: null, range: null, edit: null, tempRange: null });
   }
   setFocus(e, r) {
-    j(this.store, r ? { focus: e, range: Q(e, r), edit: null, tempRange: null } : { focus: e });
+    P(this.store, r ? { focus: e, range: Q(e, r), edit: null, tempRange: null } : { focus: e });
   }
   setNextFocus(e) {
-    j(this.store, { nextFocus: e });
+    P(this.store, { nextFocus: e });
   }
   setTempArea(e) {
-    j(this.store, { tempRange: e?.area, tempRangeType: e?.type, edit: null });
+    P(this.store, { tempRange: e?.area, tempRangeType: e?.type, edit: null });
   }
   clearTemp() {
-    j(this.store, { tempRange: null });
+    P(this.store, { tempRange: null });
   }
   setRangeArea(e) {
-    j(this.store, { range: e, edit: null, tempRange: null });
+    P(this.store, { range: e, edit: null, tempRange: null });
   }
   setRange(e, r) {
     const i = Q(e, r);
     this.setRangeArea(i);
   }
   setLastCell(e) {
-    j(this.store, { lastCell: e });
+    P(this.store, { lastCell: e });
   }
   setEdit(e) {
     const r = this.store.get("focus");
-    j(this.store, r && typeof e == "string" ? { edit: { x: r.x, y: r.y, val: e } } : { edit: null });
+    P(this.store, r && typeof e == "string" ? { edit: { x: r.x, y: r.y, val: e } } : { edit: null });
   }
   dispose() {
     this.unsubscribe.forEach(((e) => e())), this.store.dispose();
@@ -4716,8 +4720,8 @@ function ud(t, e, r = {}, i, o, s) {
     }));
     return a.sort(((p, v) => {
       for (const { order: y, values: w } of g) {
-        const C = Ys(w[p], w[v]);
-        if (C) return y === "desc" ? -C : C;
+        const x = Ys(w[p], w[v]);
+        if (x) return y === "desc" ? -x : x;
       }
       return 0;
     }));
@@ -4812,7 +4816,7 @@ class qs extends re {
     })(c, a), h = (function(p, v, y) {
       if (y.length === p.length) return y;
       let w = 0;
-      return p.map(((C) => F(v[C]) ? C : y[w++]));
+      return p.map(((x) => F(v[x]) ? x : y[w++]));
     })(c, a, ud([...d], a, i, r, o, s)), u = l.store.get("items");
     l.setData({ proxyItems: h });
     const g = l.store.get("items");
@@ -5317,7 +5321,7 @@ class Ed {
 }
 class Dd {
   constructor() {
-    this.stores = de([...G, ...k], ((e, r) => (e[r] = new Ps(r), e)), {});
+    this.stores = de([...G, ...k], ((e, r) => (e[r] = new js(r), e)), {});
   }
   setViewport(e, r) {
     this.stores[e].setViewport(r);
@@ -5334,8 +5338,8 @@ class Td {
       if (!l.get("items").length) return;
       const a = { colType: n, position: { x: s, y: 1 }, contentHeight: r, fixWidth: n !== "rgCol", viewports: e.viewportProvider.stores, dimensions: e.dimensionProvider.stores, rowStores: e.dataProvider.stores, noHorizontalScrollTransfer: e.noHorizontalScrollTransfer, colStore: l, onHeaderresize: (u) => this.onColumnResize(n, u, l), onResizeviewport: (u) => {
         var g;
-        const p = { clientSize: u.detail.size }, v = /* @__PURE__ */ (function(w, C) {
-          return C === "rgCol" ? w : C;
+        const p = { clientSize: u.detail.size }, v = /* @__PURE__ */ (function(w, x) {
+          return x === "rgCol" ? w : x;
         })(n, u.detail.dimension), y = k.includes(v) && Zs(v, e.disableVirtualX, e.virtualX);
         (v === "rgRow" && !e.disableVirtualY || y) && (p.virtualSize = u.detail.size), (g = e.viewportProvider) === null || g === void 0 || g.setViewport(v, p);
       } }, c = (function(u) {
@@ -5450,7 +5454,7 @@ class kd {
     this.elements = {};
   }
 }
-class jd {
+class Pd {
   constructor() {
     this.stores = {}, this.columnStores = {}, this.rowStores = {}, this.storesByType = {}, this.storesXToType = {}, this.storesYToType = {};
   }
@@ -5582,7 +5586,7 @@ class jd {
     this.storesByType[r] = e, this.storesXToType[e] = r, i && i !== r && (s = !0, this.storesByType[i] === e && delete this.storesByType[i]), typeof o == "number" && o !== e && this.storesXToType[o] === r && (delete this.storesXToType[o], s = !0), s && this.clearAll();
   }
 }
-class Pd {
+class jd {
   constructor() {
     this.parentY = 0;
   }
@@ -5606,7 +5610,7 @@ class Pd {
   }
 }
 const Ld = ({ ref: t }) => {
-  const e = new Pd();
+  const e = new jd();
   return t(e), f("div", { class: "draggable-wrapper hidden", ref: (r) => e.el = r }, f("div", { class: "draggable", ref: (r) => e.draggable = r }, f("span", { class: "revo-alt-icon" }), f("span", { ref: (r) => e.text = r })), f("div", { class: "drag-position", ref: (r) => e.rgRow = r }));
 };
 class Fd extends re {
@@ -6035,7 +6039,7 @@ const Ad = I(class extends L {
   }
   componentWillLoad() {
     var t;
-    this.viewportProvider = new Dd(), this.themeService = new Gc({ rowSize: this.rowSize }), this.dimensionProvider = new Ed(this.viewportProvider, { realSizeChanged: (e) => this.contentsizechanged.emit(e) }), this.columnProvider = new Od(), this.selectionStoreConnector = new jd(), this.dataProvider = new zd(this.dimensionProvider), this.registerOutsideVNodes(this.registerVNode), this.setPlugins(), this.applyStretch(this.stretch), this.themeChanged(this.theme, void 0, void 0, !0), this.columnChanged(this.columns, void 0, void 0, !0), this.dataSourceChanged(this.source, void 0, "source"), this.dataSourceChanged(this.pinnedTopSource, void 0, "pinnedTopSource"), this.dataSourceChanged(this.pinnedBottomSource, void 0, "pinnedBottomSource"), Object.keys((t = this.trimmedRows) !== null && t !== void 0 ? t : {}).length > 0 && this.trimmedRowsChanged(this.trimmedRows), this.rowDefChanged(this.rowDefinitions, void 0, void 0, !1), this.grouping && Object.keys(this.grouping).length > 0 && this.groupingChanged(this.grouping), this.scrollingService = new kd(((e) => {
+    this.viewportProvider = new Dd(), this.themeService = new Gc({ rowSize: this.rowSize }), this.dimensionProvider = new Ed(this.viewportProvider, { realSizeChanged: (e) => this.contentsizechanged.emit(e) }), this.columnProvider = new Od(), this.selectionStoreConnector = new Pd(), this.dataProvider = new zd(this.dimensionProvider), this.registerOutsideVNodes(this.registerVNode), this.setPlugins(), this.applyStretch(this.stretch), this.themeChanged(this.theme, void 0, void 0, !0), this.columnChanged(this.columns, void 0, void 0, !0), this.dataSourceChanged(this.source, void 0, "source"), this.dataSourceChanged(this.pinnedTopSource, void 0, "pinnedTopSource"), this.dataSourceChanged(this.pinnedBottomSource, void 0, "pinnedBottomSource"), Object.keys((t = this.trimmedRows) !== null && t !== void 0 ? t : {}).length > 0 && this.trimmedRowsChanged(this.trimmedRows), this.rowDefChanged(this.rowDefinitions, void 0, void 0, !1), this.grouping && Object.keys(this.grouping).length > 0 && this.groupingChanged(this.grouping), this.scrollingService = new kd(((e) => {
       var r;
       (r = this.dimensionProvider) === null || r === void 0 || r.setViewPortCoordinate({ coordinate: e.coordinate, type: e.dimension }), this.viewportscroll.emit(e);
     })), this.aftergridinit.emit(), this.isInited = !0;
@@ -6071,7 +6075,7 @@ const Ad = I(class extends L {
         }, onSetedit: (y) => {
           var w;
           this.beforeeditstart.emit(y.detail).defaultPrevented ? y.preventDefault() : (w = this.selectionStoreConnector) === null || w === void 0 || w.setEdit(y.detail.val);
-        } }), f("revogr-data", Object.assign({}, g, { colType: d.type, key: p, readonly: this.readonly, range: this.range, rowClass: this.rowClass, rowSelectionStore: g.rowSelectionStore, additionalData: this.additionalData, jobsBeforeRender: this.jobsBeforeRender, slot: Pa }), f("slot", { name: `data-${d.type}-${g.type}` })), f("revogr-temp-range", { selectionStore: g.selectionStore, dimensionRow: g.dimensionRow, dimensionCol: g.dimensionCol }), f("revogr-focus", { colData: g.colData, dataStore: g.dataStore, focusTemplate: this.focusTemplate, rowType: g.type, colType: d.type, selectionStore: g.selectionStore, dimensionRow: g.dimensionRow, dimensionCol: g.dimensionCol }, f("slot", { name: `focus-${d.type}-${g.type}` })));
+        } }), f("revogr-data", Object.assign({}, g, { colType: d.type, key: p, readonly: this.readonly, range: this.range, rowClass: this.rowClass, rowSelectionStore: g.rowSelectionStore, additionalData: this.additionalData, jobsBeforeRender: this.jobsBeforeRender, slot: ja }), f("slot", { name: `data-${d.type}-${g.type}` })), f("revogr-temp-range", { selectionStore: g.selectionStore, dimensionRow: g.dimensionRow, dimensionCol: g.dimensionCol }), f("revogr-focus", { colData: g.colData, dataStore: g.dataStore, focusTemplate: this.focusTemplate, rowType: g.type, colType: d.type, selectionStore: g.selectionStore, dimensionRow: g.dimensionRow, dimensionCol: g.dimensionCol }, f("slot", { name: `focus-${d.type}-${g.type}` })));
         u.push(v);
       })), i.push(f("revogr-viewport-scroll", Object.assign({}, d.prop, { ref: (g) => this.scrollingService.registerElement(g, "" + d.prop.key), onScrollviewport: (g) => {
         this.scrollingService.proxyScroll(g.detail, "" + d.prop.key, this.noHorizontalScrollTransfer && g.detail.dimension === "rgCol");
@@ -6387,43 +6391,7 @@ function Bd() {
   Nd(), Hd();
 }
 typeof customElements < "u" && Bd();
-const go = Object.freeze([
-  "accessible",
-  "additionalData",
-  "applyOnClose",
-  "autoSizeColumn",
-  "canDrag",
-  "canFocus",
-  "canMoveColumns",
-  "colSize",
-  "columnTypes",
-  "columns",
-  "disableVirtualX",
-  "disableVirtualY",
-  "exporting",
-  "filter",
-  "frameSize",
-  "grouping",
-  "hideAttribution",
-  "noHorizontalScrollTransfer",
-  "pinnedBottomSource",
-  "pinnedTopSource",
-  "range",
-  "readonly",
-  "resize",
-  "rowClass",
-  "rowDefinitions",
-  "rowHeaders",
-  "rowSize",
-  "rtl",
-  "sorting",
-  "source",
-  "stretch",
-  "theme",
-  "trimmedRows",
-  "useClipboard",
-  "virtualX"
-]), po = Object.freeze({
+const go = Object.freeze(["accessible", "additionalData", "applyOnClose", "autoSizeColumn", "canDrag", "canFocus", "canMoveColumns", "colSize", "columns", "columnTypes", "disableVirtualX", "disableVirtualY", "exporting", "filter", "frameSize", "grouping", "hideAttribution", "noHorizontalScrollTransfer", "pinnedBottomSource", "pinnedTopSource", "range", "readonly", "resize", "rowClass", "rowDefinitions", "rowHeaders", "rowSize", "rtl", "sorting", "source", "stretch", "theme", "trimmedRows", "useClipboard", "virtualX"]), po = Object.freeze({
   aftercolumnresize: "aftercolumnresize",
   afteredit: "afteredit",
   afterfocus: "afterfocus",
@@ -6465,12 +6433,12 @@ const go = Object.freeze([
           g,
           y,
           l.current
-        ), C = { [p]: w };
+        ), x = { [p]: w };
         if (g === "afteredit" && e.syncSourceOnEdit && "source" in a) {
           const S = sn(a.source);
-          n.current = S, C.source = S.value;
+          n.current = S, x.source = S.value;
         }
-        e.setProps && e.setProps(C);
+        e.setProps && e.setProps(x);
       };
     const d = {};
     for (const g of ln(e.eventListeners))
@@ -6509,103 +6477,103 @@ const go = Object.freeze([
 qr.displayName = "RevoGrid";
 qr.propTypes = {
   /** Dash component identifier. */
-  id: x.string,
+  id: C.string,
   /** CSS class applied to the RevoGrid component host. */
-  className: x.string,
+  className: C.string,
   /** Inline style applied to the RevoGrid component host. */
-  style: x.object,
-  /** Enables accessibility attributes and keyboard behavior. */
-  accessible: x.bool,
-  /** Additional plain JSON data available to grid configuration. */
-  additionalData: x.object,
-  /** Applies filter changes when the filter popover closes. */
-  applyOnClose: x.bool,
-  /** Enables or configures automatic column sizing. */
-  autoSizeColumn: x.oneOfType([x.bool, x.object]),
-  /** Enables row dragging. */
-  canDrag: x.bool,
-  /** Allows the grid to receive focus. */
-  canFocus: x.bool,
-  /** Enables column reordering. */
-  canMoveColumns: x.bool,
-  /** Default column width in pixels. */
-  colSize: x.number,
-  /** Named JSON-safe column type definitions. Function members are unsupported. */
-  columnTypes: x.object,
-  /** Column definitions. Function-valued renderers and editors are unsupported. */
-  columns: x.array,
-  /** Disables horizontal virtualization. */
-  disableVirtualX: x.bool,
-  /** Disables vertical virtualization. */
-  disableVirtualY: x.bool,
-  /** Enables export behavior. */
-  exporting: x.bool,
-  /** Enables or configures filtering. Function-valued custom filters are unsupported. */
-  filter: x.oneOfType([x.bool, x.object]),
-  /** Number of extra virtualized items rendered around the viewport. */
-  frameSize: x.number,
-  /** JSON-safe row-grouping configuration. */
-  grouping: x.object,
-  /** Hides the RevoGrid attribution link. */
-  hideAttribution: x.bool,
-  /** Prevents wheel transfer from horizontal grid scrolling. */
-  noHorizontalScrollTransfer: x.bool,
-  /** Rows pinned to the bottom viewport. */
-  pinnedBottomSource: x.array,
-  /** Rows pinned to the top viewport. */
-  pinnedTopSource: x.array,
-  /** Enables range selection. */
-  range: x.bool,
-  /** Makes cells read-only. */
-  readonly: x.bool,
-  /** Enables column resizing. */
-  resize: x.bool,
-  /** CSS class applied to grid rows. */
-  rowClass: x.string,
-  /** Per-row size definitions. */
-  rowDefinitions: x.array,
-  /** Enables or configures row headers. */
-  rowHeaders: x.oneOfType([x.bool, x.object]),
-  /** Default row height in pixels. */
-  rowSize: x.number,
-  /** Enables right-to-left layout. */
-  rtl: x.bool,
-  /** JSON-safe sorting configuration. */
-  sorting: x.object,
-  /** Main row source. Pass DataFrame data with df.to_dict("records"). */
-  source: x.array,
-  /** Enables or configures column stretching. */
-  stretch: x.oneOfType([x.bool, x.string]),
-  /** Grid theme name. */
-  theme: x.string,
-  /** Map of trimmed physical row indexes. */
-  trimmedRows: x.object,
-  /** Enables or configures clipboard behavior. */
-  useClipboard: x.oneOfType([x.bool, x.object]),
-  /** Horizontal viewport dimension identifiers. */
-  virtualX: x.array,
-  /** Latest aftercolumnresize JSON-safe event envelope. */
-  aftercolumnresize: x.object,
-  /** Latest compact afteredit JSON-safe event envelope. */
-  afteredit: x.object,
-  /** Latest afterfocus JSON-safe event envelope. */
-  afterfocus: x.object,
-  /** Latest aftersortingapply JSON-safe event envelope. */
-  aftersortingapply: x.object,
-  /** Latest beforefilterapply notification. Python cannot cancel it synchronously. */
-  beforefilterapply: x.object,
-  /** Latest headerclick JSON-safe event envelope. */
-  headerclick: x.object,
-  /** Latest roworderchanged JSON-safe event envelope. */
-  roworderchanged: x.object,
-  /** Other RevoGrid event names to publish through eventData. */
-  eventListeners: x.arrayOf(x.string),
+  style: C.object,
+  /** Enable accessibility. If disabled, the grid will not be accessible. */
+  accessible: C.bool,
+  /** Additional data to be passed to plugins, renders or editors. For example if you need to pass Vue component instance. */
+  additionalData: C.any,
+  /** Apply changes in editor when closed except 'Escape' cases. If custom editor in use method getValue required. Check interfaces.d.ts `EditorBase` for more info. */
+  applyOnClose: C.bool,
+  /** Autosize config. Enables columns autoSize. For more details check `autoSizeColumn` plugin. By default disabled, hence operation is not performance efficient. `true` to enable with default params (double header separator click for autosize). Or define config. See `AutoSizeColumnConfig` for more details. */
+  autoSizeColumn: C.bool,
+  /** Disable native drag&drop plugin. */
+  canDrag: C.bool,
+  /** When true cell focus appear. */
+  canFocus: C.bool,
+  /** Enable column move plugin. */
+  canMoveColumns: C.bool,
+  /** Indicates default column size. */
+  colSize: C.number,
+  /** Columns - defines an array of grid columns. Can be column or grouped column. */
+  columns: C.array,
+  /** Column Types Format. Every type represent multiple column properties. Types will be merged but can be replaced with column properties. Types were made as separate objects to be reusable per multiple columns. */
+  columnTypes: C.object,
+  /** Disable lazy rendering mode for the `X axis`. Use when not many columns present and you don't need rerenader cells during scroll. Can be used for initial rendering performance improvement. */
+  disableVirtualX: C.bool,
+  /** Disable lazy rendering mode for the `Y axis`. Use when not many rows present and you don't need rerenader cells during scroll. Can be used for initial rendering performance improvement. */
+  disableVirtualY: C.bool,
+  /** Enable export plugin. */
+  exporting: C.bool,
+  /** Enables filter plugin. Can be boolean. Or can be filter collection See `FilterCollection` for more info. */
+  filter: C.bool,
+  /** Defines how many rows/columns should be rendered outside visible area. */
+  frameSize: C.number,
+  /** Group rows based on this property. Define properties to be groped by grouping plugin See `GroupingOptions`. */
+  grouping: C.object,
+  /** Please only hide the attribution if you are subscribed to Pro version */
+  hideAttribution: C.bool,
+  /** Prevents horizontal scroll state from being mirrored across viewport sections. */
+  noHorizontalScrollTransfer: C.bool,
+  /** Pinned bottom Source: {[T in ColumnProp]: any} - defines pinned bottom rows data source. */
+  pinnedBottomSource: C.array,
+  /** Pinned top Source: {[T in ColumnProp]: any} - defines pinned top rows data source. */
+  pinnedTopSource: C.array,
+  /** When true, user can select a cell range. Required for range-based clipboard fill. */
+  range: C.bool,
+  /** When true, grid in read only mode. */
+  readonly: C.bool,
+  /** When true, columns are resizable. */
+  resize: C.bool,
+  /** Row class property mapping. Map custom classes to rows from row object data. Define this property in rgRow object and this will be mapped as rgRow class. */
+  rowClass: C.string,
+  /** Custom row properies to be applied. See `RowDefinition` for more info. */
+  rowDefinitions: C.array,
+  /** Excel like functionality. Show row numbers. Also can be used for custom row header render if object provided. */
+  rowHeaders: C.bool,
+  /** Indicates default rgRow size. By default 0, means theme package size will be applied Alternatively you can use `rowSize` to reset viewport */
+  rowSize: C.number,
+  /** Enable right-to-left (RTL) mode. When enabled, columns will be displayed from right to left. */
+  rtl: C.bool,
+  /** Alternative way to set sorting. `{columns: [{prop: 'name', order: 'asc'}]}` Use SortingPlugin to get current sorting state */
+  sorting: C.object,
+  /** Source - defines main data source. Can be an Object or 2 dimensional array([][]); Keys/indexes referenced from columns Prop. */
+  source: C.array,
+  /** Stretch strategy for columns by `StretchColumn` plugin. For example if there are more space on the right last column size would be increased. */
+  stretch: C.oneOfType([C.bool, C.string]),
+  /** Theme name. */
+  theme: C.string,
+  /** Trimmed rows. Functionality which allows to hide rows from main data set. `trimmedRows` are physical `rgRow` indexes to hide. */
+  trimmedRows: C.oneOfType([C.bool, C.number]),
+  /** When true enable clipboard. Can be boolean or clipboard config. */
+  useClipboard: C.bool,
+  /** Column dimensions that use X axis virtual rendering. Defaults to regular columns only to preserve pinned column behavior. Set to `['rgCol', 'colPinStart', 'colPinEnd']` to virtualize all column areas. */
+  virtualX: C.array,
+  /** Emitted after column resizing. Useful for retrieving the resized columns. Contains a JSON-safe event envelope. */
+  aftercolumnresize: C.object,
+  /** After data applied or range changed. Contains a JSON-safe event envelope. */
+  afteredit: C.object,
+  /** After focus render finished. Can be used to access a focus element through `event.target`. This is just a duplicate of `afterfocus` from `revogr-focus.tsx`. Contains a JSON-safe event envelope. */
+  afterfocus: C.object,
+  /** By `SortingPlugin` <br>Triggered after sorting has been applied and completed. <br>Provides final sorting state and sorting column metadata when available. Contains a JSON-safe event envelope. */
+  aftersortingapply: C.object,
+  /** Emitted before applying a filter to the data source. Use e.preventDefault() to prevent cell focus change. Modify if you need to change filters. Contains a JSON-safe event envelope. */
+  beforefilterapply: C.object,
+  /** On header click. Contains a JSON-safe event envelope. */
+  headerclick: C.object,
+  /** Before the order of `rgRow` is applied. To prevent the default behavior of changing the order of `rgRow`, you can call `e.preventDefault()`. Contains a JSON-safe event envelope. */
+  roworderchanged: C.object,
+  /** Additional RevoGrid event names to publish through eventData. */
+  eventListeners: C.arrayOf(C.string),
   /** Latest JSON-safe event envelope from eventListeners. */
-  eventData: x.object,
+  eventData: C.object,
   /** When true, afteredit also updates the complete Dash source property. */
-  syncSourceOnEdit: x.bool,
+  syncSourceOnEdit: C.bool,
   /** Dash callback used to report property changes. */
-  setProps: x.func
+  setProps: C.func
 };
 qr.defaultProps = {
   eventListeners: [],

@@ -30,3 +30,11 @@ def test_dash_registers_local_bundle_and_source_map():
             "dynamic": True,
         },
     ]
+
+
+def test_sdist_manifest_excludes_local_example_environment():
+    root = Path(__file__).parents[1]
+    directives = (root / "MANIFEST.in").read_text().splitlines()
+
+    assert "prune examples/.venv" in directives
+    assert "global-exclude __pycache__ *.py[cod]" in directives

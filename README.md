@@ -6,8 +6,8 @@
 
 <p align="center">
   <a href="https://pypi.org/project/dash-datagrid/"><img src="https://img.shields.io/pypi/v/dash-datagrid" alt="Latest version on PyPI"/></a>
-  <a href="https://pypi.org/project/dash-datagrid/"><img src="https://img.shields.io/pypi/pyversions/dash-datagrid" alt="Supported Python versions"/></a>
-  <a href="https://github.com/revolist/dash-datagrid/blob/main/LICENSE"><img src="https://img.shields.io/pypi/l/dash-datagrid" alt="Software license"/></a>
+  <a href="#compatibility-and-scope"><img src="https://img.shields.io/badge/python-3.10--3.14-blue" alt="Supported Python versions"/></a>
+  <a href="https://github.com/revolist/dash-datagrid/blob/main/LICENSE"><img src="https://img.shields.io/github/license/revolist/dash-datagrid" alt="Software license"/></a>
   <a href="https://www.npmjs.com/package/@revolist/dash-datagrid"><img src="https://img.shields.io/npm/v/@revolist/dash-datagrid" alt="Latest version on npm"/></a>
   <a href="https://github.com/revolist/dash-datagrid/actions/workflows/ci.yml"><img src="https://github.com/revolist/dash-datagrid/actions/workflows/ci.yml/badge.svg" alt="CI workflow status"/></a>
 </p>
@@ -854,5 +854,7 @@ then runs the official `dash-generate-components` pipeline.
 ## Release
 
 The release workflow preflights the exact version on npm and PyPI, tests the
-npm tarball and Python distributions, publishes both registries, and creates
+npm tarball and Python distributions, and publishes each missing registry
+artifact. Existing versions are skipped, so an interrupted partial release can
+recover without attempting a duplicate publish. A successful release creates
 the matching Git tag and GitHub release.
