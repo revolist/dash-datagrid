@@ -1,3 +1,38 @@
+<p align="center">
+  <a href="https://rv-grid.com/guide/dash/">
+    <img src="https://raw.githubusercontent.com/revolist/revogrid/main/assets/logo.svg" alt="RevoGrid Data Grid for Plotly Dash" height="150" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://pypi.org/project/dash-datagrid/"><img src="https://img.shields.io/pypi/v/dash-datagrid" alt="Latest version on PyPI"/></a>
+  <a href="https://pypi.org/project/dash-datagrid/"><img src="https://img.shields.io/pypi/pyversions/dash-datagrid" alt="Supported Python versions"/></a>
+  <a href="https://github.com/revolist/dash-datagrid/blob/main/LICENSE"><img src="https://img.shields.io/pypi/l/dash-datagrid" alt="Software license"/></a>
+  <a href="https://www.npmjs.com/package/@revolist/dash-datagrid"><img src="https://img.shields.io/npm/v/@revolist/dash-datagrid" alt="Latest version on npm"/></a>
+  <a href="https://github.com/revolist/dash-datagrid/actions/workflows/ci.yml"><img src="https://github.com/revolist/dash-datagrid/actions/workflows/ci.yml/badge.svg" alt="CI workflow status"/></a>
+</p>
+
+<h3 align="center">Powerful data grid component for <a href="https://dash.plotly.com/">Plotly Dash</a>, powered by RevoGrid.</h3>
+<p align="center">
+Render 1M+ rows, millions of cells, and thousands of columns efficiently with no hard row limit in the grid.
+</p>
+<p align="center">
+Used by some of the largest companies in Europe and the United States.
+</p>
+
+<p align="center">
+  <a href="https://rv-grid.com/guide/dash/">Docs</a> •
+  <a href="#getting-started">Getting Started</a> •
+  <a href="#common-configuration">Configuration</a> •
+  <a href="#dash-callbacks-and-revogrid-events">Events</a> •
+  <a href="https://rv-grid.com/guide/api/revoGrid">RevoGrid API</a> •
+  <a href="./LICENSE">License</a>
+</p>
+
+<img src="https://raw.githubusercontent.com/revolist/revogrid/main/assets/material.jpg" alt="RevoGrid material theme data grid preview" width="100%" />
+<i>RevoGrid material theme.</i>
+<br>
+
 # Dash DataGrid
 
 `dash-datagrid` is the official RevoGrid Core component for
