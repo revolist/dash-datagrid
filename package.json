@@ -23,13 +23,13 @@
   "scripts": {
     "build:js": "vite build && node scripts/copy-proptypes.mjs",
     "build:python": "node scripts/generate-python.mjs",
-    "build": "pnpm build:js && pnpm build:python",
-    "build:artifacts": "pnpm build && node scripts/run-python.mjs -m build",
-    "test": "pnpm test:js && pnpm test:python",
+    "build": "npm run build:js && npm run build:python",
+    "build:artifacts": "npm run build && node scripts/run-python.mjs -m build",
+    "test": "npm run test:js && npm run test:python",
     "test:js": "vitest run",
     "test:python": "node scripts/run-python.mjs -m pytest tests -m \"not browser\"",
     "test:browser": "playwright test --config playwright.config.mjs",
-    "pack:check": "pnpm pack --pack-destination dist"
+    "pack:check": "npm pack --pack-destination dist"
   },
   "keywords": [
     "dash",
@@ -58,6 +58,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",
+    "@stencil/core": "4.43.4",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "react": "^18.3.1",

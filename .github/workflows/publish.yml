@@ -17,13 +17,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org
+          cache: npm
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
@@ -37,7 +35,7 @@ jobs:
           VERSION="$(node -p "require('./package.json').version")"
           NPM_EXISTS=false
           PYPI_EXISTS=false
-          if pnpm view "@revolist/dash-datagrid@${VERSION}" version >/dev/null 2>&1; then
+          if npm view "@revolist/dash-datagrid@${VERSION}" version >/dev/null 2>&1; then
             NPM_EXISTS=true
           fi
           PYPI_STATUS="$(curl --silent --output /dev/null --write-out '%{http_code}' "https://pypi.org/pypi/dash-datagrid/${VERSION}/json")"
@@ -59,22 +57,22 @@ jobs:
       - name: Install and generate
         if: steps.preflight.outputs.publish == 'true'
         run: |
-          pnpm install --no-frozen-lockfile
+          npm ci
           python -m pip install -r requirements-dev.txt
-          pnpm build
+          npm run build
 
       - name: Test both distributions
         if: steps.preflight.outputs.publish == 'true'
         run: |
-          pnpm test:js
+          npm run test:js
           python -m pytest tests -m "not browser"
           python -m build
           python -m twine check dist/*.whl dist/*.tar.gz
-          pnpm pack --pack-destination dist
+          npm pack --pack-destination dist
 
       - name: Publish npm package
         if: steps.preflight.outputs.publish == 'true'
-        run: pnpm publish --access public --provenance --no-git-checks
+        run: npm publish --access public --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 

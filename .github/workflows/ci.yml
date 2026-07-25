@@ -12,16 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: pnpm install --no-frozen-lockfile
-      - run: pnpm test:js
-      - run: pnpm build:js
-      - run: pnpm pack --pack-destination dist
+          cache: npm
+      - run: npm ci
+      - run: npm run test:js
+      - run: npm run build:js
+      - run: npm pack --pack-destination dist
 
   python:
     runs-on: ubuntu-latest
@@ -53,18 +51,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
           cache: pip
-      - run: pnpm install --no-frozen-lockfile
+      - run: npm ci
       - run: python -m pip install -r requirements-dev.txt
-      - run: pnpm build
-      - run: pnpm exec playwright install --with-deps chromium
-      - run: pnpm test:browser
+      - run: npm run build
+      - run: npm exec -- playwright install --with-deps chromium
+      - run: npm run test:browser

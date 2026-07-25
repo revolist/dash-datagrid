@@ -802,18 +802,18 @@ python app.py
 
 ## Development
 
-Development requires Node 22, pnpm, and Python 3.10 or newer:
+Development requires Node 22, npm, and Python 3.10 or newer:
 
 ```bash
-pnpm install
+npm install
 python -m venv .venv
 .venv/bin/python -m pip install -r requirements-dev.txt
-pnpm build
-pnpm test
-pnpm test:browser
+npm run build
+npm test
+npm run test:browser
 ```
 
-`pnpm build` bundles the standalone custom elements with React externalized,
+`npm run build` bundles the standalone custom elements with React externalized,
 then runs the official `dash-generate-components` pipeline.
 
 ## Release
