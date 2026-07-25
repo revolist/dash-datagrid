@@ -1,0 +1,5 @@
+{
+  "name": "dash_datagrid",
+  "version": "4.23.24",
+  "description": "RevoGrid Core wrapper for Plotly Dash."
+}

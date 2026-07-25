@@ -1,0 +1,98 @@
+name: Release npm and PyPI
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: release
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+
+      - name: Preflight npm and PyPI versions
+        id: preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="$(node -p "require('./package.json').version")"
+          NPM_EXISTS=false
+          PYPI_EXISTS=false
+          if pnpm view "@revolist/dash-datagrid@${VERSION}" version >/dev/null 2>&1; then
+            NPM_EXISTS=true
+          fi
+          PYPI_STATUS="$(curl --silent --output /dev/null --write-out '%{http_code}' "https://pypi.org/pypi/dash-datagrid/${VERSION}/json")"
+          if [ "${PYPI_STATUS}" = "200" ]; then
+            PYPI_EXISTS=true
+          fi
+          if [ "${NPM_EXISTS}" != "${PYPI_EXISTS}" ]; then
+            echo "Version ${VERSION} exists in only one registry; refusing a partial duplicate release."
+            exit 1
+          fi
+          if [ "${NPM_EXISTS}" = "true" ]; then
+            echo "Version ${VERSION} already exists in both registries."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          fi
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Install and generate
+        if: steps.preflight.outputs.publish == 'true'
+        run: |
+          pnpm install --no-frozen-lockfile
+          python -m pip install -r requirements-dev.txt
+          pnpm build
+
+      - name: Test both distributions
+        if: steps.preflight.outputs.publish == 'true'
+        run: |
+          pnpm test:js
+          python -m pytest tests -m "not browser"
+          python -m build
+          python -m twine check dist/*.whl dist/*.tar.gz
+          pnpm pack --pack-destination dist
+
+      - name: Publish npm package
+        if: steps.preflight.outputs.publish == 'true'
+        run: pnpm publish --access public --provenance --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish Python distributions
+        if: steps.preflight.outputs.publish == 'true'
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+      - name: Create tested tag and GitHub release
+        if: steps.preflight.outputs.publish == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.preflight.outputs.version }}
+        run: |
+          git tag "v${VERSION}"
+          git push origin "v${VERSION}"
+          gh release create "v${VERSION}" \
+            dist/*.whl \
+            dist/*.tar.gz \
+            dist/*.tgz \
+            --generate-notes \
+            --title "dash-datagrid ${VERSION}"

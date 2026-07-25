@@ -1,0 +1,6 @@
+include LICENSE
+include README.md
+include package-info.json
+recursive-include dash_datagrid *.py *.js *.js.map *.json
+recursive-include src/lib *.js
+recursive-include examples *.py *.md *.txt *.css

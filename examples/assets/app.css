@@ -1,0 +1,184 @@
+:root {
+  color: #172033;
+  background: #f3f6fb;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  font-synthesis: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgb(58 91 190 / 12%), transparent 34rem),
+    #f3f6fb;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.app-shell {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 56px 0 72px;
+}
+
+.hero {
+  max-width: 780px;
+  margin-bottom: 30px;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  color: #4d63bf;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 12px;
+  font-size: clamp(2.25rem, 5vw, 4.25rem);
+  letter-spacing: -0.055em;
+  line-height: 0.98;
+}
+
+h2 {
+  margin-bottom: 8px;
+  font-size: 1.25rem;
+}
+
+.lede {
+  max-width: 680px;
+  margin-bottom: 0;
+  color: #5d687d;
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.toolbar,
+.grid-card,
+.event-card {
+  border: 1px solid rgb(37 53 89 / 10%);
+  background: rgb(255 255 255 / 92%);
+  box-shadow: 0 18px 50px rgb(35 50 85 / 8%);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border-radius: 16px 16px 0 0;
+  border-bottom: 0;
+}
+
+.toolbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.button {
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid #cbd3e4;
+  border-radius: 10px;
+  color: #27344d;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.button:hover {
+  border-color: #7889c9;
+  background: #f6f8ff;
+}
+
+.button-primary {
+  border-color: #4d63bf;
+  color: #fff;
+  background: #4d63bf;
+}
+
+.button-primary:hover {
+  border-color: #3e52aa;
+  background: #3e52aa;
+}
+
+.dataset-status {
+  color: #687389;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+.grid-card {
+  overflow: hidden;
+  padding: 8px;
+  border-radius: 0 0 16px 16px;
+}
+
+.orders-grid {
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.event-card {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1.3fr);
+  gap: 32px;
+  margin-top: 24px;
+  padding: 24px;
+  border-radius: 16px;
+}
+
+.event-help {
+  margin-bottom: 0;
+  color: #6b7486;
+  line-height: 1.55;
+}
+
+#event-output {
+  overflow: auto;
+  min-height: 120px;
+  max-height: 320px;
+  margin: 0;
+  padding: 18px;
+  border-radius: 12px;
+  color: #d7e3ff;
+  background: #172033;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 720px) {
+  .app-shell {
+    width: min(100% - 20px, 1180px);
+    padding-top: 32px;
+  }
+
+  .toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .event-card {
+    grid-template-columns: 1fr;
+  }
+}

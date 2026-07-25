@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dash-datagrid"
+version = "4.23.24"
+description = "RevoGrid Core wrapper for Plotly Dash."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [
+  { name = "Revolist OU" }
+]
+keywords = [
+  "dash",
+  "plotly",
+  "datagrid",
+  "spreadsheet",
+  "revogrid"
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Framework :: Dash",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Software Development :: User Interfaces"
+]
+dependencies = [
+  "dash>=3,<5"
+]
+
+[project.urls]
+Homepage = "https://rv-grid.com/guide/dash/"
+Documentation = "https://rv-grid.com/guide/dash/"
+Repository = "https://github.com/revolist/dash-datagrid"
+Issues = "https://github.com/revolist/dash-datagrid/issues"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["dash_datagrid*"]
+
+[tool.setuptools.package-data]
+dash_datagrid = [
+  "*.js",
+  "*.js.map",
+  "*.json"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

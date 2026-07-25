@@ -1,0 +1,10 @@
+dash_datagrid/__pycache__/
+dash_datagrid/*.pyc
+test/
+tests/
+examples/
+.venv/
+.pytest_cache/
+build/
+dist/
+*.egg-info/

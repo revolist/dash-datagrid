@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - next
+
+jobs:
+  javascript:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: pnpm install --no-frozen-lockfile
+      - run: pnpm test:js
+      - run: pnpm build:js
+      - run: pnpm pack --pack-destination dist
+
+  python:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - python: '3.10'
+            dash: '>=3,<4'
+          - python: '3.11'
+            dash: '>=4,<5'
+          - python: '3.12'
+            dash: '>=3,<4'
+          - python: '3.13'
+            dash: '>=4,<5'
+          - python: '3.14'
+            dash: '>=4,<5'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - run: python -m pip install "dash${{ matrix.dash }}" pytest
+      - run: python -m pip install --no-deps -e .
+      - run: python -m pytest tests -m "not browser"
+
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+      - run: pnpm install --no-frozen-lockfile
+      - run: python -m pip install -r requirements-dev.txt
+      - run: pnpm build
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:browser

@@ -1,0 +1,8 @@
+build>=1.2.2
+dash>=3,<5
+pandas>=2.0
+PyYAML>=6
+pytest>=8
+setuptools>=77
+twine>=6
+wheel

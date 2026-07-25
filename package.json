@@ -1,0 +1,80 @@
+{
+  "name": "@revolist/dash-datagrid",
+  "version": "4.23.24",
+  "description": "RevoGrid Core wrapper for Plotly Dash.",
+  "main": "./dash_datagrid/dash_datagrid.min.js",
+  "module": "./dash_datagrid/dash-datagrid.js",
+  "exports": {
+    ".": {
+      "import": "./dash_datagrid/dash-datagrid.js",
+      "require": "./dash_datagrid/dash_datagrid.min.js",
+      "default": "./dash_datagrid/dash-datagrid.js"
+    }
+  },
+  "files": [
+    "dash_datagrid/",
+    "src/lib/",
+    "LICENSE",
+    "README.md",
+    "package-info.json",
+    "MANIFEST.in",
+    "pyproject.toml"
+  ],
+  "scripts": {
+    "build:js": "vite build && node scripts/copy-proptypes.mjs",
+    "build:python": "node scripts/generate-python.mjs",
+    "build": "pnpm build:js && pnpm build:python",
+    "build:artifacts": "pnpm build && node scripts/run-python.mjs -m build",
+    "test": "pnpm test:js && pnpm test:python",
+    "test:js": "vitest run",
+    "test:python": "node scripts/run-python.mjs -m pytest tests -m \"not browser\"",
+    "test:browser": "playwright test --config playwright.config.mjs",
+    "pack:check": "pnpm pack --pack-destination dist"
+  },
+  "keywords": [
+    "dash",
+    "plotly",
+    "python",
+    "react",
+    "revo-grid",
+    "datagrid",
+    "spreadsheet",
+    "stenciljs",
+    "virtual-grid"
+  ],
+  "author": "Revolist OU",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/revolist/dash-datagrid.git"
+  },
+  "bugs": {
+    "url": "https://github.com/revolist/dash-datagrid/issues"
+  },
+  "homepage": "https://rv-grid.com/guide/dash/",
+  "dependencies": {
+    "@revolist/revogrid": "4.23.24",
+    "prop-types": "^15.8.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "react": "^18.3.1",
+    "react-docgen": "5.4.3",
+    "react-dom": "^18.3.1",
+    "typescript": "^5.5.4",
+    "vite": "^7.0.0",
+    "vitest": "^4.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=18.3.1 <19",
+    "react-dom": ">=18.3.1 <19"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
