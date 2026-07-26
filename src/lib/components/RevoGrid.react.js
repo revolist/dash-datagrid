@@ -24,14 +24,50 @@ if (
 
 const GRID_PROPERTY_NAMES = Object.freeze(["accessible","additionalData","applyOnClose","autoSizeColumn","canDrag","canFocus","canMoveColumns","colSize","columns","columnTypes","disableVirtualX","disableVirtualY","exporting","filter","frameSize","grouping","hideAttribution","noHorizontalScrollTransfer","pinnedBottomSource","pinnedTopSource","range","readonly","resize","rowClass","rowDefinitions","rowHeaders","rowSize","rtl","sorting","source","stretch","theme","trimmedRows","useClipboard","virtualX"]);
 const EVENT_MAPPINGS = Object.freeze({
+  "additionaldatachanged": "additionaldatachanged",
+  "afteranysource": "afteranysource",
   "aftercolumnresize": "aftercolumnresize",
+  "aftercolumnsset": "aftercolumnsset",
   "afteredit": "afteredit",
   "afterfocus": "afterfocus",
+  "aftergridinit": "aftergridinit",
+  "aftergridrender": "aftergridrender",
   "aftersortingapply": "aftersortingapply",
+  "aftersourceset": "aftersourceset",
+  "afterthemechanged": "afterthemechanged",
+  "aftertrimmed": "aftertrimmed",
+  "beforeanysource": "beforeanysource",
+  "beforeautofill": "beforeautofill",
+  "beforecellfocus": "beforecellfocus",
+  "beforecolumnapplied": "beforecolumnapplied",
+  "beforecolumnsgather": "beforecolumnsgather",
+  "beforecolumnsset": "beforecolumnsset",
+  "beforeedit": "beforeedit",
+  "beforeeditstart": "beforeeditstart",
+  "beforeexport": "beforeexport",
   "beforefilterapply": "beforefilterapply",
+  "beforefiltertrimmed": "beforefiltertrimmed",
+  "beforefocuslost": "beforefocuslost",
+  "beforegridrender": "beforegridrender",
+  "beforerange": "beforerange",
+  "beforerangeedit": "beforerangeedit",
+  "beforerowdefinition": "beforerowdefinition",
+  "beforesorting": "beforesorting",
+  "beforesortingapply": "beforesortingapply",
+  "beforesourceset": "beforesourceset",
+  "beforesourcesortingapply": "beforesourcesortingapply",
+  "beforetrimmed": "beforetrimmed",
+  "contentsizechanged": "contentsizechanged",
+  "created": "created",
+  "filterconfigchanged": "filterconfigchanged",
   "headerclick": "headerclick",
-  "roworderchanged": "roworderchanged"
+  "rowdragstart": "rowdragstart",
+  "rowheaderschanged": "rowheaderschanged",
+  "roworderchanged": "roworderchanged",
+  "sortingconfigchanged": "sortingconfigchanged",
+  "viewportscroll": "viewportscroll"
 });
+const DEFAULT_EVENT_NAMES = Object.freeze(["aftercolumnresize","afteredit","afterfocus","aftersortingapply","beforefilterapply","headerclick","roworderchanged"]);
 
 /**
  * Revogrid - High-performance, customizable grid library for managing large datasets. ### Events guide For a comprehensive events guide, check the [Events API Page](/guide/api/events). All events propagate to the root level of the grid. [Dependency tree](#Dependencies). ### Type definitions Read [type definition file](https://github.com/revolist/revogrid/blob/master/src/interfaces.d.ts) for the full interface information. All complex property types such as `ColumnRegular`, `ColumnProp`, `ColumnDataSchemaModel` can be found there. ### HTMLRevoGridElement
@@ -81,9 +117,35 @@ const RevoGrid = forwardRef(function RevoGrid(props, forwardedRef) {
     if (!element) {
       return undefined;
     }
-    const listeners = {};
-    for (const [eventName, dashProp] of Object.entries(EVENT_MAPPINGS)) {
-      listeners[eventName] = event => {
+    const selectedEventNames = new Set([
+      ...DEFAULT_EVENT_NAMES,
+      ...normalizeEventNames(props.eventListeners),
+    ]);
+    const dedicatedListeners = {};
+    const genericListeners = {};
+    for (const eventName of selectedEventNames) {
+      const dashProp = Object.prototype.hasOwnProperty.call(
+        EVENT_MAPPINGS,
+        eventName,
+      )
+        ? EVENT_MAPPINGS[eventName]
+        : undefined;
+      if (!dashProp) {
+        genericListeners[eventName] = event => {
+          sequenceRef.current += 1;
+          if (props.setProps) {
+            props.setProps({
+              eventData: createEventEnvelope(
+                eventName,
+                event.detail,
+                sequenceRef.current,
+              ),
+            });
+          }
+        };
+        continue;
+      }
+      dedicatedListeners[eventName] = event => {
         sequenceRef.current += 1;
         const detail =
           eventName === 'afteredit'
@@ -95,6 +157,9 @@ const RevoGrid = forwardRef(function RevoGrid(props, forwardedRef) {
           sequenceRef.current,
         );
         const updates = { [dashProp]: envelope };
+        if (!DEFAULT_EVENT_NAMES.includes(eventName)) {
+          updates.eventData = envelope;
+        }
         if (
           eventName === 'afteredit' &&
           props.syncSourceOnEdit &&
@@ -109,25 +174,7 @@ const RevoGrid = forwardRef(function RevoGrid(props, forwardedRef) {
         }
       };
     }
-    const genericListeners = {};
-    for (const eventName of normalizeEventNames(props.eventListeners)) {
-      if (eventName in EVENT_MAPPINGS) {
-        continue;
-      }
-      genericListeners[eventName] = event => {
-        sequenceRef.current += 1;
-        if (props.setProps) {
-          props.setProps({
-            eventData: createEventEnvelope(
-              eventName,
-              event.detail,
-              sequenceRef.current,
-            ),
-          });
-        }
-      };
-    }
-    const cleanupDedicated = bindEventListeners(element, listeners);
+    const cleanupDedicated = bindEventListeners(element, dedicatedListeners);
     const cleanupGeneric = bindEventListeners(element, genericListeners);
     return () => {
       cleanupDedicated();
@@ -240,20 +287,90 @@ RevoGrid.propTypes = {
   useClipboard: PropTypes.bool,
   /** Column dimensions that use X axis virtual rendering. Defaults to regular columns only to preserve pinned column behavior. Set to `['rgCol', 'colPinStart', 'colPinEnd']` to virtualize all column areas. */
   virtualX: PropTypes.array,
+  /** Emmited after the additional data is changed Contains a JSON-safe event envelope. */
+  additionaldatachanged: PropTypes.object,
+  /** Emitted after each source update, whether from the pinned or main viewport. Useful for tracking all changes originating from sources in both the pinned and main viewports. Contains a JSON-safe event envelope. */
+  afteranysource: PropTypes.object,
   /** Emitted after column resizing. Useful for retrieving the resized columns. Contains a JSON-safe event envelope. */
   aftercolumnresize: PropTypes.object,
+  /** Column updated Contains a JSON-safe event envelope. */
+  aftercolumnsset: PropTypes.object,
   /** After data applied or range changed. Contains a JSON-safe event envelope. */
   afteredit: PropTypes.object,
   /** After focus render finished. Can be used to access a focus element through `event.target`. This is just a duplicate of `afterfocus` from `revogr-focus.tsx`. Contains a JSON-safe event envelope. */
   afterfocus: PropTypes.object,
+  /** Emmited after the grid is initialized. Connected to the DOM. Contains a JSON-safe event envelope. */
+  aftergridinit: PropTypes.object,
+  /** Emmited after the grid is rendered. Contains a JSON-safe event envelope. */
+  aftergridrender: PropTypes.object,
   /** By `SortingPlugin` <br>Triggered after sorting has been applied and completed. <br>Provides final sorting state and sorting column metadata when available. Contains a JSON-safe event envelope. */
   aftersortingapply: PropTypes.object,
+  /** After main source/rows updated Contains a JSON-safe event envelope. */
+  aftersourceset: PropTypes.object,
+  /** Emmited after the theme is changed Contains a JSON-safe event envelope. */
+  afterthemechanged: PropTypes.object,
+  /** Emitted after trimmed values have been applied. Useful for notifying when trimming of values has taken place. Contains a JSON-safe event envelope. */
+  aftertrimmed: PropTypes.object,
+  /** Before data apply on any source type. Can be source from pinned and main viewport. You can override data source here Contains a JSON-safe event envelope. */
+  beforeanysource: PropTypes.object,
+  /** Before autofill is applied. To prevent the default behavior of applying the edit data, you can call `e.preventDefault()`. Contains a JSON-safe event envelope. */
+  beforeautofill: PropTypes.object,
+  /** Before the cell focus is changed. To prevent the default behavior of changing the cell focus, you can call `e.preventDefault()`. Contains a JSON-safe event envelope. */
+  beforecellfocus: PropTypes.object,
+  /** Emitted before a column update is applied, after the column set is gathered and the viewport is updated. Useful for performing actions or modifications before the final application of the column update. Contains a JSON-safe event envelope. */
+  beforecolumnapplied: PropTypes.object,
+  /** Emitted before user column definitions are gathered into the internal column collection. Listeners can replace `detail.columns` to rewrite the raw column set before RevoGrid normalizes it. Contains a JSON-safe event envelope. */
+  beforecolumnsgather: PropTypes.object,
+  /** Emitted before a column update is applied. Listeners can use this event to perform any necessary actions or modifications before the column update is finalized. Contains a JSON-safe event envelope. */
+  beforecolumnsset: PropTypes.object,
+  /** Before the data is edited. To prevent the default behavior of editing data and use your own implementation, call `e.preventDefault()`. To override the edit result with your own value, set the `e.val` property to your desired value. Contains a JSON-safe event envelope. */
+  beforeedit: PropTypes.object,
+  /** Emitted before editing starts. Use e.preventDefault() to prevent the default edit behavior. Contains a JSON-safe event envelope. */
+  beforeeditstart: PropTypes.object,
+  /** Before export Use e.preventDefault() to prevent export Replace data in Event in case you want to modify it in export Contains a JSON-safe event envelope. */
+  beforeexport: PropTypes.object,
   /** Emitted before applying a filter to the data source. Use e.preventDefault() to prevent cell focus change. Modify if you need to change filters. Contains a JSON-safe event envelope. */
   beforefilterapply: PropTypes.object,
+  /** Emitted before applying a filter to the data source. Use e.preventDefault() to prevent the default behavior of trimming values and applying the filter. Modify the `collection` property if you want to change the filters. Modify the `itemsToFilter` property if you want to filter the indexes for trimming. Contains a JSON-safe event envelope. */
+  beforefiltertrimmed: PropTypes.object,
+  /** Before the grid focus is lost. To prevent the default behavior of changing the cell focus, you can call `e.preventDefault()`. Contains a JSON-safe event envelope. */
+  beforefocuslost: PropTypes.object,
+  /** Emmited before the grid is rendered. Contains a JSON-safe event envelope. */
+  beforegridrender: PropTypes.object,
+  /** Before autofill is applied. Runs before beforeautofill event. Use e.preventDefault() to prevent range. Contains a JSON-safe event envelope. */
+  beforerange: PropTypes.object,
+  /** Before applying range data, specifically when a range selection occurs. To customize the data and prevent the default edit data from being set, you can call `e.preventDefault()`. Contains a JSON-safe event envelope. */
+  beforerangeedit: PropTypes.object,
+  /** Emitted before the row definition is applied. Useful for modifying or preventing the default row definition behavior. Contains a JSON-safe event envelope. */
+  beforerowdefinition: PropTypes.object,
+  /** By `SortingPlugin` <br>Triggered immediately after header click. <br>First in sorting event sequence. Ff this event stops no other event called. <br>Use `e.preventDefault()` to prevent sorting. Contains a JSON-safe event envelope. */
+  beforesorting: PropTypes.object,
+  /** By `SortingPlugin` <br> After `beforesorting` <br>Triggered after column data updated with new sorting order. <br>Use `e.preventDefault()` to prevent sorting data change. Contains a JSON-safe event envelope. */
+  beforesortingapply: PropTypes.object,
+  /** Before main source/rows data apply. You can override data source here Contains a JSON-safe event envelope. */
+  beforesourceset: PropTypes.object,
+  /** By `SortingPlugin` <br>Same as `beforesorting` but triggered after `beforeanysource` (when source is changed). <br>Use `e.preventDefault()` to prevent sorting data change. Contains a JSON-safe event envelope. */
+  beforesourcesortingapply: PropTypes.object,
+  /** Emitted before trimming values. Use e.preventDefault() to prevent the default behavior of trimming values. Modify the `trimmed` property if you want to filter the indexes for trimming. Contains a JSON-safe event envelope. */
+  beforetrimmed: PropTypes.object,
+  /** New content size has been applied. The size excludes the header. Currently, the event responsible for applying the new content size does not provide the actual size. To retrieve the actual content size, you can utilize the `getContentSize` function after the event has been triggered. Contains a JSON-safe event envelope. */
+  contentsizechanged: PropTypes.object,
+  /** Emmited after grid created Contains a JSON-safe event envelope. */
+  created: PropTypes.object,
+  /** Emitted when the filter configuration is changed Contains a JSON-safe event envelope. */
+  filterconfigchanged: PropTypes.object,
   /** On header click. Contains a JSON-safe event envelope. */
   headerclick: PropTypes.object,
+  /** This event is triggered when the row order change is started. To prevent the default behavior of changing the row order, you can call `e.preventDefault()`. To change the item name at the start of the row order change, you can set `e.text` to the desired new name. Contains a JSON-safe event envelope. */
+  rowdragstart: PropTypes.object,
+  /** Emmited when the row headers are changed. Contains a JSON-safe event envelope. */
+  rowheaderschanged: PropTypes.object,
   /** Before the order of `rgRow` is applied. To prevent the default behavior of changing the order of `rgRow`, you can call `e.preventDefault()`. Contains a JSON-safe event envelope. */
   roworderchanged: PropTypes.object,
+  /** Emitted when the sorting configuration is changed SortingPlugin subsribed to this event Contains a JSON-safe event envelope. */
+  sortingconfigchanged: PropTypes.object,
+  /** Emitted when the viewport is scrolled. Useful for tracking viewport scrolling events. Contains a JSON-safe event envelope. */
+  viewportscroll: PropTypes.object,
   /** Additional RevoGrid event names to publish through eventData. */
   eventListeners: PropTypes.arrayOf(PropTypes.string),
   /** Latest JSON-safe event envelope from eventListeners. */

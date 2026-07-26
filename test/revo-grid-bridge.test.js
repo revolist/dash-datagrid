@@ -63,6 +63,9 @@ describe('RevoGrid Dash bridge', () => {
       detail: { ready: true },
       sequence: 1,
     });
+    expect(setProps.mock.calls[0][0].created).toEqual(
+      setProps.mock.calls[0][0].eventData,
+    );
   });
 
   it('assigns grid props and emits compact repeated edit events', async () => {
@@ -120,16 +123,21 @@ describe('RevoGrid Dash bridge', () => {
 
     await render({
       source: element.source,
-      eventListeners: ['aftergridinit'],
+      eventListeners: ['runtimepluginchange'],
       syncSourceOnEdit: true,
       setProps,
     });
     setProps.mockClear();
     element.dispatchEvent(new CustomEvent('created', { detail: {} }));
     element.dispatchEvent(
-      new CustomEvent('aftergridinit', { detail: { ready: true } }),
+      new CustomEvent('runtimepluginchange', { detail: { ready: true } }),
     );
     expect(setProps).toHaveBeenCalledTimes(1);
-    expect(setProps.mock.calls[0][0].eventData.name).toBe('aftergridinit');
+    expect(setProps.mock.calls[0][0].eventData.name).toBe(
+      'runtimepluginchange',
+    );
+    expect(setProps.mock.calls[0][0]).not.toHaveProperty(
+      'runtimepluginchange',
+    );
   });
 });

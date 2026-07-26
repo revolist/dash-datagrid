@@ -19,7 +19,10 @@ jobs:
       - run: npm ci
       - run: npm run test:js
       - run: npm run build:js
-      - run: npm pack --pack-destination dist
+      - name: Pack npm artifact
+        run: |
+          mkdir -p dist
+          npm pack --pack-destination dist
 
   python:
     runs-on: ubuntu-latest

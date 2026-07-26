@@ -41,10 +41,56 @@ JSON_SAFE_GRID_PROPERTIES = {
     "virtualX",
 }
 
+PUBLIC_GRID_EVENTS = {
+    "additionaldatachanged",
+    "afteranysource",
+    "aftercolumnresize",
+    "aftercolumnsset",
+    "afteredit",
+    "afterfocus",
+    "aftergridinit",
+    "aftergridrender",
+    "aftersortingapply",
+    "aftersourceset",
+    "afterthemechanged",
+    "aftertrimmed",
+    "beforeanysource",
+    "beforeautofill",
+    "beforecellfocus",
+    "beforecolumnapplied",
+    "beforecolumnsgather",
+    "beforecolumnsset",
+    "beforeedit",
+    "beforeeditstart",
+    "beforeexport",
+    "beforefilterapply",
+    "beforefiltertrimmed",
+    "beforefocuslost",
+    "beforegridrender",
+    "beforerange",
+    "beforerangeedit",
+    "beforerowdefinition",
+    "beforesorting",
+    "beforesortingapply",
+    "beforesourceset",
+    "beforesourcesortingapply",
+    "beforetrimmed",
+    "contentsizechanged",
+    "created",
+    "filterconfigchanged",
+    "headerclick",
+    "rowdragstart",
+    "rowheaderschanged",
+    "roworderchanged",
+    "sortingconfigchanged",
+    "viewportscroll",
+}
+
 
 def test_public_signature_and_exclusions():
     signature = inspect.signature(RevoGrid)
     assert JSON_SAFE_GRID_PROPERTIES <= set(signature.parameters)
+    assert PUBLIC_GRID_EVENTS <= set(signature.parameters)
     for prop in (
         "id",
         "className",

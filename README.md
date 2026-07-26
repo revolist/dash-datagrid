@@ -452,21 +452,28 @@ References:
 
 ## Dash callbacks and RevoGrid events
 
-### Dedicated event properties
+### Generated event properties
 
-Seven common event paths have dedicated Dash input properties:
+Every public RevoGrid event discovered in Stencil compiler metadata is generated
+as a same-name Dash input property. Seven common event paths are active by
+default for backwards compatibility:
 
-| Dash property | When it updates | Typical `detail` | Core API |
-| --- | --- | --- | --- |
-| `afteredit` | A cell or selected range changes | Compact delta or range data | [`AfterEditEvent`](https://rv-grid.com/guide/types/TypeAlias.AfterEditEvent) |
-| `afterfocus` | Focus rendering completes | Focused cell/range | [`FocusAfterRenderEvent`](https://rv-grid.com/guide/types/Interface.FocusAfterRenderEvent) |
-| `headerclick` | A header is clicked | JSON-safe column definition | [`ColumnRegular`](https://rv-grid.com/guide/types/Interface.ColumnRegular) |
-| `roworderchanged` | A row reorder is requested | `from`, `to` | [Row Drag and Drop](https://rv-grid.com/guide/row/order) |
-| `aftersortingapply` | Sorting finishes | Final sorting state | [`AfterSortingApplyEvent`](https://rv-grid.com/guide/types/TypeAlias.AfterSortingApplyEvent) |
-| `beforefilterapply` | Filtering is about to apply | Filter `collection` | [Filtering Events](https://rv-grid.com/guide/filters#event-hooks) |
-| `aftercolumnresize` | Column resizing finishes | Resized columns by index | [Column Resize](https://rv-grid.com/guide/column/resize) |
+Use the [RevoGrid Events API](https://rv-grid.com/guide/api/events) as the
+canonical catalog of event names, payload types, and descriptions. The
+[RevoGrid component API](https://rv-grid.com/guide/api/revoGrid) documents the
+complete Core property, event, and method surface.
 
-Every dedicated and generic callback value has this envelope:
+| Dash property | When it updates | Typical `detail` |
+| --- | --- | --- |
+| `afteredit` | A cell or selected range changes | Compact delta or range data |
+| `afterfocus` | Focus rendering completes | Focused cell/range |
+| `headerclick` | A header is clicked | JSON-safe column definition |
+| `roworderchanged` | A row reorder is requested | `from`, `to` |
+| `aftersortingapply` | Sorting finishes | Final sorting state |
+| `beforefilterapply` | Filtering is about to apply | Filter `collection` |
+| `aftercolumnresize` | Column resizing finishes | Resized columns by index |
+
+Every named and generic callback value has this envelope:
 
 ```json
 {
@@ -516,7 +523,9 @@ When a callback has several event inputs, use `dash.ctx.triggered_id` or
 
 ### Subscribe to other events
 
-Set `eventListeners` to Core event names and read `eventData`:
+Set `eventListeners` to activate any other generated Core event. The envelope
+updates both its same-name property and the backwards-compatible `eventData`
+property:
 
 ```python
 grid = RevoGrid(
@@ -542,8 +551,9 @@ def show_event(event):
 ```
 
 Names are deduplicated and listeners are reconciled when `eventListeners`
-changes. A dedicated name is ignored in `eventListeners` because its dedicated
-property already receives it.
+changes. The seven default events already update their named properties and do
+not need to be listed. Runtime plugin event names absent from Stencil metadata
+continue to update `eventData` only.
 
 Avoid high-frequency events such as `viewportscroll` unless a server request
 for every event is intentional.
@@ -642,14 +652,8 @@ This is the complete public property surface generated for
 | `id` | `str` or Dash pattern ID | Component identifier |
 | `className` | `str` | CSS class on the Dash host |
 | `style` | `dict` | Inline host style; normally include a height |
-| `afteredit` | `dict` | Latest dedicated edit envelope |
-| `afterfocus` | `dict` | Latest dedicated focus envelope |
-| `headerclick` | `dict` | Latest dedicated header-click envelope |
-| `roworderchanged` | `dict` | Latest row-order envelope |
-| `aftersortingapply` | `dict` | Latest completed-sorting envelope |
-| `beforefilterapply` | `dict` | Latest pre-filter notification |
-| `aftercolumnresize` | `dict` | Latest resize envelope |
-| `eventListeners` | `list[str]` | Other Core event names to observe |
+| Every public Core event name | `dict` | Latest JSON-safe event envelope; generated automatically from Stencil metadata |
+| `eventListeners` | `list[str]` | Additional generated or runtime event names to activate |
 | `eventData` | `dict` | Latest generic event envelope |
 | `syncSourceOnEdit` | `bool`, default `False` | Also update full Dash `source` after edits |
 
@@ -780,8 +784,9 @@ Leave `syncSourceOnEdit=False` and use the compact `afteredit` delta.
 ### Generic event is not received
 
 Use the lowercase name from the
-[Events API](https://rv-grid.com/guide/api/events). Dedicated event names
-update their named property instead of `eventData`.
+[Events API](https://rv-grid.com/guide/api/events). Auto-discovered events
+update both their named property and `eventData`; runtime-only plugin events
+update `eventData`.
 
 ## Complete RevoGrid documentation map
 

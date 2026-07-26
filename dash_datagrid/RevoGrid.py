@@ -37,9 +37,22 @@ Keyword arguments:
     Additional data to be passed to plugins, renders or editors. For
     example if you need to pass Vue component instance.
 
+- additionaldatachanged (dict; optional):
+    Emmited after the additional data is changed Contains a JSON-safe
+    event envelope.
+
+- afteranysource (dict; optional):
+    Emitted after each source update, whether from the pinned or main
+    viewport. Useful for tracking all changes originating from sources
+    in both the pinned and main viewports. Contains a JSON-safe event
+    envelope.
+
 - aftercolumnresize (dict; optional):
     Emitted after column resizing. Useful for retrieving the resized
     columns. Contains a JSON-safe event envelope.
+
+- aftercolumnsset (dict; optional):
+    Column updated Contains a JSON-safe event envelope.
 
 - afteredit (dict; optional):
     After data applied or range changed. Contains a JSON-safe event
@@ -50,10 +63,31 @@ Keyword arguments:
     through `event.target`. This is just a duplicate of `afterfocus`
     from `revogr-focus.tsx`. Contains a JSON-safe event envelope.
 
+- aftergridinit (dict; optional):
+    Emmited after the grid is initialized. Connected to the DOM.
+    Contains a JSON-safe event envelope.
+
+- aftergridrender (dict; optional):
+    Emmited after the grid is rendered. Contains a JSON-safe event
+    envelope.
+
 - aftersortingapply (dict; optional):
     By `SortingPlugin` <br>Triggered after sorting has been applied
     and completed. <br>Provides final sorting state and sorting column
     metadata when available. Contains a JSON-safe event envelope.
+
+- aftersourceset (dict; optional):
+    After main source/rows updated Contains a JSON-safe event
+    envelope.
+
+- afterthemechanged (dict; optional):
+    Emmited after the theme is changed Contains a JSON-safe event
+    envelope.
+
+- aftertrimmed (dict; optional):
+    Emitted after trimmed values have been applied. Useful for
+    notifying when trimming of values has taken place. Contains a
+    JSON-safe event envelope.
 
 - applyOnClose (boolean; optional):
     Apply changes in editor when closed except 'Escape' cases. If
@@ -67,10 +101,119 @@ Keyword arguments:
     (double header separator click for autosize). Or define config.
     See `AutoSizeColumnConfig` for more details.
 
+- beforeanysource (dict; optional):
+    Before data apply on any source type. Can be source from pinned
+    and main viewport. You can override data source here Contains a
+    JSON-safe event envelope.
+
+- beforeautofill (dict; optional):
+    Before autofill is applied. To prevent the default behavior of
+    applying the edit data, you can call `e.preventDefault()`.
+    Contains a JSON-safe event envelope.
+
+- beforecellfocus (dict; optional):
+    Before the cell focus is changed. To prevent the default behavior
+    of changing the cell focus, you can call `e.preventDefault()`.
+    Contains a JSON-safe event envelope.
+
+- beforecolumnapplied (dict; optional):
+    Emitted before a column update is applied, after the column set is
+    gathered and the viewport is updated. Useful for performing
+    actions or modifications before the final application of the
+    column update. Contains a JSON-safe event envelope.
+
+- beforecolumnsgather (dict; optional):
+    Emitted before user column definitions are gathered into the
+    internal column collection. Listeners can replace `detail.columns`
+    to rewrite the raw column set before RevoGrid normalizes it.
+    Contains a JSON-safe event envelope.
+
+- beforecolumnsset (dict; optional):
+    Emitted before a column update is applied. Listeners can use this
+    event to perform any necessary actions or modifications before the
+    column update is finalized. Contains a JSON-safe event envelope.
+
+- beforeedit (dict; optional):
+    Before the data is edited. To prevent the default behavior of
+    editing data and use your own implementation, call
+    `e.preventDefault()`. To override the edit result with your own
+    value, set the `e.val` property to your desired value. Contains a
+    JSON-safe event envelope.
+
+- beforeeditstart (dict; optional):
+    Emitted before editing starts. Use e.preventDefault() to prevent
+    the default edit behavior. Contains a JSON-safe event envelope.
+
+- beforeexport (dict; optional):
+    Before export Use e.preventDefault() to prevent export Replace
+    data in Event in case you want to modify it in export Contains a
+    JSON-safe event envelope.
+
 - beforefilterapply (dict; optional):
     Emitted before applying a filter to the data source. Use
     e.preventDefault() to prevent cell focus change. Modify if you
     need to change filters. Contains a JSON-safe event envelope.
+
+- beforefiltertrimmed (dict; optional):
+    Emitted before applying a filter to the data source. Use
+    e.preventDefault() to prevent the default behavior of trimming
+    values and applying the filter. Modify the `collection` property
+    if you want to change the filters. Modify the `itemsToFilter`
+    property if you want to filter the indexes for trimming. Contains
+    a JSON-safe event envelope.
+
+- beforefocuslost (dict; optional):
+    Before the grid focus is lost. To prevent the default behavior of
+    changing the cell focus, you can call `e.preventDefault()`.
+    Contains a JSON-safe event envelope.
+
+- beforegridrender (dict; optional):
+    Emmited before the grid is rendered. Contains a JSON-safe event
+    envelope.
+
+- beforerange (dict; optional):
+    Before autofill is applied. Runs before beforeautofill event. Use
+    e.preventDefault() to prevent range. Contains a JSON-safe event
+    envelope.
+
+- beforerangeedit (dict; optional):
+    Before applying range data, specifically when a range selection
+    occurs. To customize the data and prevent the default edit data
+    from being set, you can call `e.preventDefault()`. Contains a
+    JSON-safe event envelope.
+
+- beforerowdefinition (dict; optional):
+    Emitted before the row definition is applied. Useful for modifying
+    or preventing the default row definition behavior. Contains a
+    JSON-safe event envelope.
+
+- beforesorting (dict; optional):
+    By `SortingPlugin` <br>Triggered immediately after header click.
+    <br>First in sorting event sequence. Ff this event stops no other
+    event called. <br>Use `e.preventDefault()` to prevent sorting.
+    Contains a JSON-safe event envelope.
+
+- beforesortingapply (dict; optional):
+    By `SortingPlugin` <br> After `beforesorting` <br>Triggered after
+    column data updated with new sorting order. <br>Use
+    `e.preventDefault()` to prevent sorting data change. Contains a
+    JSON-safe event envelope.
+
+- beforesourceset (dict; optional):
+    Before main source/rows data apply. You can override data source
+    here Contains a JSON-safe event envelope.
+
+- beforesourcesortingapply (dict; optional):
+    By `SortingPlugin` <br>Same as `beforesorting` but triggered after
+    `beforeanysource` (when source is changed). <br>Use
+    `e.preventDefault()` to prevent sorting data change. Contains a
+    JSON-safe event envelope.
+
+- beforetrimmed (dict; optional):
+    Emitted before trimming values. Use e.preventDefault() to prevent
+    the default behavior of trimming values. Modify the `trimmed`
+    property if you want to filter the indexes for trimming. Contains
+    a JSON-safe event envelope.
 
 - canDrag (boolean; optional):
     Disable native drag&drop plugin.
@@ -97,6 +240,16 @@ Keyword arguments:
     Columns - defines an array of grid columns. Can be column or
     grouped column.
 
+- contentsizechanged (dict; optional):
+    New content size has been applied. The size excludes the header.
+    Currently, the event responsible for applying the new content size
+    does not provide the actual size. To retrieve the actual content
+    size, you can utilize the `getContentSize` function after the
+    event has been triggered. Contains a JSON-safe event envelope.
+
+- created (dict; optional):
+    Emmited after grid created Contains a JSON-safe event envelope.
+
 - disableVirtualX (boolean; optional):
     Disable lazy rendering mode for the `X axis`. Use when not many
     columns present and you don't need rerenader cells during scroll.
@@ -119,6 +272,10 @@ Keyword arguments:
 - filter (boolean; optional):
     Enables filter plugin. Can be boolean. Or can be filter collection
     See `FilterCollection` for more info.
+
+- filterconfigchanged (dict; optional):
+    Emitted when the filter configuration is changed Contains a
+    JSON-safe event envelope.
 
 - frameSize (number; optional):
     Defines how many rows/columns should be rendered outside visible
@@ -175,6 +332,17 @@ Keyword arguments:
     size will be applied Alternatively you can use `rowSize` to reset
     viewport.
 
+- rowdragstart (dict; optional):
+    This event is triggered when the row order change is started. To
+    prevent the default behavior of changing the row order, you can
+    call `e.preventDefault()`. To change the item name at the start of
+    the row order change, you can set `e.text` to the desired new
+    name. Contains a JSON-safe event envelope.
+
+- rowheaderschanged (dict; optional):
+    Emmited when the row headers are changed. Contains a JSON-safe
+    event envelope.
+
 - roworderchanged (dict; optional):
     Before the order of `rgRow` is applied. To prevent the default
     behavior of changing the order of `rgRow`, you can call
@@ -187,6 +355,10 @@ Keyword arguments:
 - sorting (dict; optional):
     Alternative way to set sorting. `{columns: [{prop: 'name', order:
     'asc'}]}` Use SortingPlugin to get current sorting state.
+
+- sortingconfigchanged (dict; optional):
+    Emitted when the sorting configuration is changed SortingPlugin
+    subsribed to this event Contains a JSON-safe event envelope.
 
 - source (list; optional):
     Source - defines main data source. Can be an Object or 2
@@ -211,6 +383,10 @@ Keyword arguments:
 
 - useClipboard (boolean; optional):
     When True enable clipboard. Can be boolean or clipboard config.
+
+- viewportscroll (dict; optional):
+    Emitted when the viewport is scrolled. Useful for tracking
+    viewport scrolling events. Contains a JSON-safe event envelope.
 
 - virtualX (list; optional):
     Column dimensions that use X axis virtual rendering. Defaults to
@@ -263,21 +439,56 @@ Keyword arguments:
         trimmedRows: typing.Optional[typing.Union[bool, NumberType]] = None,
         useClipboard: typing.Optional[bool] = None,
         virtualX: typing.Optional[typing.Sequence] = None,
+        additionaldatachanged: typing.Optional[dict] = None,
+        afteranysource: typing.Optional[dict] = None,
         aftercolumnresize: typing.Optional[dict] = None,
+        aftercolumnsset: typing.Optional[dict] = None,
         afteredit: typing.Optional[dict] = None,
         afterfocus: typing.Optional[dict] = None,
+        aftergridinit: typing.Optional[dict] = None,
+        aftergridrender: typing.Optional[dict] = None,
         aftersortingapply: typing.Optional[dict] = None,
+        aftersourceset: typing.Optional[dict] = None,
+        afterthemechanged: typing.Optional[dict] = None,
+        aftertrimmed: typing.Optional[dict] = None,
+        beforeanysource: typing.Optional[dict] = None,
+        beforeautofill: typing.Optional[dict] = None,
+        beforecellfocus: typing.Optional[dict] = None,
+        beforecolumnapplied: typing.Optional[dict] = None,
+        beforecolumnsgather: typing.Optional[dict] = None,
+        beforecolumnsset: typing.Optional[dict] = None,
+        beforeedit: typing.Optional[dict] = None,
+        beforeeditstart: typing.Optional[dict] = None,
+        beforeexport: typing.Optional[dict] = None,
         beforefilterapply: typing.Optional[dict] = None,
+        beforefiltertrimmed: typing.Optional[dict] = None,
+        beforefocuslost: typing.Optional[dict] = None,
+        beforegridrender: typing.Optional[dict] = None,
+        beforerange: typing.Optional[dict] = None,
+        beforerangeedit: typing.Optional[dict] = None,
+        beforerowdefinition: typing.Optional[dict] = None,
+        beforesorting: typing.Optional[dict] = None,
+        beforesortingapply: typing.Optional[dict] = None,
+        beforesourceset: typing.Optional[dict] = None,
+        beforesourcesortingapply: typing.Optional[dict] = None,
+        beforetrimmed: typing.Optional[dict] = None,
+        contentsizechanged: typing.Optional[dict] = None,
+        created: typing.Optional[dict] = None,
+        filterconfigchanged: typing.Optional[dict] = None,
         headerclick: typing.Optional[dict] = None,
+        rowdragstart: typing.Optional[dict] = None,
+        rowheaderschanged: typing.Optional[dict] = None,
         roworderchanged: typing.Optional[dict] = None,
+        sortingconfigchanged: typing.Optional[dict] = None,
+        viewportscroll: typing.Optional[dict] = None,
         eventListeners: typing.Optional[typing.Sequence[str]] = None,
         eventData: typing.Optional[dict] = None,
         syncSourceOnEdit: typing.Optional[bool] = None,
         **kwargs
     ):
-        self._prop_names = ['id', 'accessible', 'additionalData', 'aftercolumnresize', 'afteredit', 'afterfocus', 'aftersortingapply', 'applyOnClose', 'autoSizeColumn', 'beforefilterapply', 'canDrag', 'canFocus', 'canMoveColumns', 'className', 'colSize', 'columnTypes', 'columns', 'disableVirtualX', 'disableVirtualY', 'eventData', 'eventListeners', 'exporting', 'filter', 'frameSize', 'grouping', 'headerclick', 'hideAttribution', 'noHorizontalScrollTransfer', 'pinnedBottomSource', 'pinnedTopSource', 'range', 'readonly', 'resize', 'rowClass', 'rowDefinitions', 'rowHeaders', 'rowSize', 'roworderchanged', 'rtl', 'sorting', 'source', 'stretch', 'style', 'syncSourceOnEdit', 'theme', 'trimmedRows', 'useClipboard', 'virtualX']
+        self._prop_names = ['id', 'accessible', 'additionalData', 'additionaldatachanged', 'afteranysource', 'aftercolumnresize', 'aftercolumnsset', 'afteredit', 'afterfocus', 'aftergridinit', 'aftergridrender', 'aftersortingapply', 'aftersourceset', 'afterthemechanged', 'aftertrimmed', 'applyOnClose', 'autoSizeColumn', 'beforeanysource', 'beforeautofill', 'beforecellfocus', 'beforecolumnapplied', 'beforecolumnsgather', 'beforecolumnsset', 'beforeedit', 'beforeeditstart', 'beforeexport', 'beforefilterapply', 'beforefiltertrimmed', 'beforefocuslost', 'beforegridrender', 'beforerange', 'beforerangeedit', 'beforerowdefinition', 'beforesorting', 'beforesortingapply', 'beforesourceset', 'beforesourcesortingapply', 'beforetrimmed', 'canDrag', 'canFocus', 'canMoveColumns', 'className', 'colSize', 'columnTypes', 'columns', 'contentsizechanged', 'created', 'disableVirtualX', 'disableVirtualY', 'eventData', 'eventListeners', 'exporting', 'filter', 'filterconfigchanged', 'frameSize', 'grouping', 'headerclick', 'hideAttribution', 'noHorizontalScrollTransfer', 'pinnedBottomSource', 'pinnedTopSource', 'range', 'readonly', 'resize', 'rowClass', 'rowDefinitions', 'rowHeaders', 'rowSize', 'rowdragstart', 'rowheaderschanged', 'roworderchanged', 'rtl', 'sorting', 'sortingconfigchanged', 'source', 'stretch', 'style', 'syncSourceOnEdit', 'theme', 'trimmedRows', 'useClipboard', 'viewportscroll', 'virtualX']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'accessible', 'additionalData', 'aftercolumnresize', 'afteredit', 'afterfocus', 'aftersortingapply', 'applyOnClose', 'autoSizeColumn', 'beforefilterapply', 'canDrag', 'canFocus', 'canMoveColumns', 'className', 'colSize', 'columnTypes', 'columns', 'disableVirtualX', 'disableVirtualY', 'eventData', 'eventListeners', 'exporting', 'filter', 'frameSize', 'grouping', 'headerclick', 'hideAttribution', 'noHorizontalScrollTransfer', 'pinnedBottomSource', 'pinnedTopSource', 'range', 'readonly', 'resize', 'rowClass', 'rowDefinitions', 'rowHeaders', 'rowSize', 'roworderchanged', 'rtl', 'sorting', 'source', 'stretch', 'style', 'syncSourceOnEdit', 'theme', 'trimmedRows', 'useClipboard', 'virtualX']
+        self.available_properties = ['id', 'accessible', 'additionalData', 'additionaldatachanged', 'afteranysource', 'aftercolumnresize', 'aftercolumnsset', 'afteredit', 'afterfocus', 'aftergridinit', 'aftergridrender', 'aftersortingapply', 'aftersourceset', 'afterthemechanged', 'aftertrimmed', 'applyOnClose', 'autoSizeColumn', 'beforeanysource', 'beforeautofill', 'beforecellfocus', 'beforecolumnapplied', 'beforecolumnsgather', 'beforecolumnsset', 'beforeedit', 'beforeeditstart', 'beforeexport', 'beforefilterapply', 'beforefiltertrimmed', 'beforefocuslost', 'beforegridrender', 'beforerange', 'beforerangeedit', 'beforerowdefinition', 'beforesorting', 'beforesortingapply', 'beforesourceset', 'beforesourcesortingapply', 'beforetrimmed', 'canDrag', 'canFocus', 'canMoveColumns', 'className', 'colSize', 'columnTypes', 'columns', 'contentsizechanged', 'created', 'disableVirtualX', 'disableVirtualY', 'eventData', 'eventListeners', 'exporting', 'filter', 'filterconfigchanged', 'frameSize', 'grouping', 'headerclick', 'hideAttribution', 'noHorizontalScrollTransfer', 'pinnedBottomSource', 'pinnedTopSource', 'range', 'readonly', 'resize', 'rowClass', 'rowDefinitions', 'rowHeaders', 'rowSize', 'rowdragstart', 'rowheaderschanged', 'roworderchanged', 'rtl', 'sorting', 'sortingconfigchanged', 'source', 'stretch', 'style', 'syncSourceOnEdit', 'theme', 'trimmedRows', 'useClipboard', 'viewportscroll', 'virtualX']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()
