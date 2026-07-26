@@ -10,13 +10,18 @@ permissions:
   id-token: write
 
 jobs:
-  release:
+  prepare:
+    name: Build and test distributions
     runs-on: ubuntu-latest
-    environment: release
+    outputs:
+      publish: ${{ steps.preflight.outputs.publish }}
+      publish_npm: ${{ steps.preflight.outputs.publish_npm }}
+      publish_pypi: ${{ steps.preflight.outputs.publish_pypi }}
+      version: ${{ steps.preflight.outputs.version }}
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -81,21 +86,87 @@ jobs:
           python -m twine check dist/*.whl dist/*.tar.gz
           npm pack --pack-destination dist
 
-      - name: Publish npm package
-        if: steps.preflight.outputs.publish == 'true' && steps.preflight.outputs.publish_npm == 'true'
-        run: npm publish --access public --provenance
+      - name: Upload tested npm distribution
+        if: steps.preflight.outputs.publish == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-distribution
+          path: dist/*.tgz
+          if-no-files-found: error
+
+      - name: Upload tested Python distributions
+        if: steps.preflight.outputs.publish == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-distributions
+          path: |
+            dist/*.whl
+            dist/*.tar.gz
+          if-no-files-found: error
+
+  publish_npm:
+    name: Publish npm package
+    needs: prepare
+    if: needs.prepare.outputs.publish_npm == 'true'
+    runs-on: ubuntu-latest
+    environment: release
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+      - uses: actions/download-artifact@v4
+        with:
+          name: npm-distribution
+          path: dist
+      - run: npm publish dist/*.tgz --access public --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Publish Python distributions
-        if: steps.preflight.outputs.publish == 'true' && steps.preflight.outputs.publish_pypi == 'true'
-        uses: pypa/gh-action-pypi-publish@release/v1
+  publish_python:
+    name: Publish Python distributions
+    needs: prepare
+    if: needs.prepare.outputs.publish_pypi == 'true'
+    runs-on: ubuntu-latest
+    environment: release
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: python-distributions
+          path: dist
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist
 
+  release:
+    name: Create tested tag and GitHub release
+    needs:
+      - prepare
+      - publish_npm
+      - publish_python
+    if: >-
+      always() &&
+      needs.prepare.result == 'success' &&
+      (needs.publish_npm.result == 'success' || needs.publish_npm.result == 'skipped') &&
+      (needs.publish_python.result == 'success' || needs.publish_python.result == 'skipped') &&
+      needs.prepare.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          name: npm-distribution
+          path: dist
+      - uses: actions/download-artifact@v4
+        with:
+          name: python-distributions
+          path: dist
       - name: Create tested tag and GitHub release
-        if: steps.preflight.outputs.publish == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
-          VERSION: ${{ steps.preflight.outputs.version }}
+          VERSION: ${{ needs.prepare.outputs.version }}
         run: |
           if ! git rev-parse --verify "refs/tags/v${VERSION}" >/dev/null 2>&1; then
             git tag "v${VERSION}"

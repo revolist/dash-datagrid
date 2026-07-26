@@ -56,10 +56,11 @@ applications do not need to install the npm package separately.
 - Dash 3.x or 4.x
 - RevoGrid Core at the same version as `dash-datagrid`
 
-Version 1 supports the JSON-safe RevoGrid Core property surface and server-side
-Dash callbacks. Pro and Enterprise plugin activation, custom JavaScript
+Dash Data Grid exposes the RevoGrid property surface and supports server-side
+Dash callbacks for Core, Pro, Enterprise, and custom plugin events through
+`eventListeners` and `eventData`. Plugin activation, custom JavaScript
 renderers/editors, imperative grid methods, and synchronous browser-event
-cancellation are outside its scope.
+cancellation are separate concerns.
 
 ## Getting started
 
