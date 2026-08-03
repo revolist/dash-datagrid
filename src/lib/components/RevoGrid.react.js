@@ -22,7 +22,7 @@ if (
   defineRevoGridCustomElement();
 }
 
-const GRID_PROPERTY_NAMES = Object.freeze(["accessible","additionalData","applyOnClose","autoSizeColumn","canDrag","canFocus","canMoveColumns","colSize","columns","columnTypes","disableVirtualX","disableVirtualY","exporting","filter","frameSize","grouping","hideAttribution","noHorizontalScrollTransfer","pinnedBottomSource","pinnedTopSource","range","readonly","resize","rowClass","rowDefinitions","rowHeaders","rowSize","rtl","sorting","source","stretch","theme","trimmedRows","useClipboard","virtualX"]);
+const GRID_PROPERTY_NAMES = Object.freeze(["accessible","additionalData","applyOnClose","autoSizeColumn","canDrag","canFocus","canMoveColumns","colSize","columns","columnTypes","disableVirtualX","disableVirtualY","exporting","filter","frameSize","grouping","hideAttribution","noHorizontalScrollTransfer","pinnedBottomSource","pinnedTopSource","range","readonly","resize","rowClass","rowDefinitions","rowHeaders","rowSize","rtl","sorting","source","stretch","theme","themeDefinitions","trimmedRows","useClipboard","virtualX"]);
 const EVENT_MAPPINGS = Object.freeze({
   "additionaldatachanged": "additionaldatachanged",
   "afteranysource": "afteranysource",
@@ -281,6 +281,8 @@ RevoGrid.propTypes = {
   stretch: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   /** Theme name. */
   theme: PropTypes.string,
+  /** Per-grid custom theme definitions. Assign as a JavaScript property; complex values cannot be serialized as HTML attributes. */
+  themeDefinitions: PropTypes.array,
   /** Trimmed rows. Functionality which allows to hide rows from main data set. `trimmedRows` are physical `rgRow` indexes to hide. */
   trimmedRows: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
   /** When true enable clipboard. Can be boolean or clipboard config. */
