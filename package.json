@@ -1,6 +1,6 @@
 {
   "name": "@revolist/dash-datagrid",
-  "version": "4.25.1",
+  "version": "4.25.2",
   "description": "RevoGrid Core wrapper for Plotly Dash.",
   "main": "./dash_datagrid/dash_datagrid.min.js",
   "module": "./dash_datagrid/dash-datagrid.js",
@@ -53,7 +53,7 @@
   },
   "homepage": "https://rv-grid.com/guide/dash/",
   "dependencies": {
-    "@revolist/revogrid": "4.25.1",
+    "@revolist/revogrid": "4.25.2",
     "prop-types": "^15.8.1"
   },
   "devDependencies": {
