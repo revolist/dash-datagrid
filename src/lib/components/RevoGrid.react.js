@@ -22,7 +22,7 @@ if (
   defineRevoGridCustomElement();
 }
 
-const GRID_PROPERTY_NAMES = Object.freeze(["accessible","additionalData","applyOnClose","autoSizeColumn","canDrag","canFocus","canMoveColumns","colSize","columns","columnTypes","disableVirtualX","disableVirtualY","exporting","filter","frameSize","grouping","hideAttribution","noHorizontalScrollTransfer","pinnedBottomSource","pinnedTopSource","range","readonly","resize","rowClass","rowDefinitions","rowHeaders","rowSize","rtl","sorting","source","stretch","theme","themeDefinitions","trimmedRows","useClipboard","virtualX"]);
+const GRID_PROPERTY_NAMES = Object.freeze(["accessible","additionalData","applyOnClose","autoSizeColumn","canDrag","canFocus","canMoveColumns","colSize","columns","columnTypes","disableVirtualX","disableVirtualY","exporting","filter","frameSize","grouping","hideAttribution","noHorizontalScrollTransfer","pinnedBottomSource","pinnedTopSource","range","readonly","resize","resizeRow","rowClass","rowDefinitions","rowHeaders","rowSize","rtl","sorting","source","stretch","theme","themeDefinitions","trimmedRows","useClipboard","virtualX"]);
 const EVENT_MAPPINGS = Object.freeze({
   "additionaldatachanged": "additionaldatachanged",
   "afteranysource": "afteranysource",
@@ -243,7 +243,7 @@ RevoGrid.propTypes = {
   disableVirtualY: PropTypes.bool,
   /** Enable export plugin. */
   exporting: PropTypes.bool,
-  /** Enables filter plugin. Can be boolean. Or can be filter collection See `FilterCollection` for more info. */
+  /** Enables filter plugin. Enabled by default; set to `false` to opt out. Can be boolean. Or can be filter collection See `FilterCollection` for more info. */
   filter: PropTypes.bool,
   /** Defines how many rows/columns should be rendered outside visible area. */
   frameSize: PropTypes.number,
@@ -263,6 +263,8 @@ RevoGrid.propTypes = {
   readonly: PropTypes.bool,
   /** When true, columns are resizable. */
   resize: PropTypes.bool,
+  /** Enables row resizing. Pass a configuration object to customize the height limits or enable resize edges across the full row. */
+  resizeRow: PropTypes.bool,
   /** Row class property mapping. Map custom classes to rows from row object data. Define this property in rgRow object and this will be mapped as rgRow class. */
   rowClass: PropTypes.string,
   /** Custom row properies to be applied. See `RowDefinition` for more info. */
