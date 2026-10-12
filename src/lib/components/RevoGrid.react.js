@@ -29,6 +29,7 @@ const EVENT_MAPPINGS = Object.freeze({
   "aftercolumnresize": "aftercolumnresize",
   "aftercolumnsset": "aftercolumnsset",
   "afteredit": "afteredit",
+  "afterfilterapply": "afterfilterapply",
   "afterfocus": "afterfocus",
   "aftergridinit": "aftergridinit",
   "aftergridrender": "aftergridrender",
@@ -301,6 +302,8 @@ RevoGrid.propTypes = {
   aftercolumnsset: PropTypes.object,
   /** After data applied or range changed. Contains a JSON-safe event envelope. */
   afteredit: PropTypes.object,
+  /** Emitted after the filter trim has been applied. `collection` contains the first condition for each column; `filterItems` contains the complete model, and `multiFilterItems` is an alias for `filterItems`. Contains a JSON-safe event envelope. */
+  afterfilterapply: PropTypes.object,
   /** After focus render finished. Can be used to access a focus element through `event.target`. This is just a duplicate of `afterfocus` from `revogr-focus.tsx`. Contains a JSON-safe event envelope. */
   afterfocus: PropTypes.object,
   /** Emmited after the grid is initialized. Connected to the DOM. Contains a JSON-safe event envelope. */
@@ -333,9 +336,9 @@ RevoGrid.propTypes = {
   beforeeditstart: PropTypes.object,
   /** Before export Use e.preventDefault() to prevent export Replace data in Event in case you want to modify it in export Contains a JSON-safe event envelope. */
   beforeexport: PropTypes.object,
-  /** Emitted before applying a filter to the data source. Use e.preventDefault() to prevent cell focus change. Modify if you need to change filters. Contains a JSON-safe event envelope. */
+  /** Emitted before applying a filter to the data source. Use `event.preventDefault()` to handle filtering outside Core. `collection` contains the first condition for each column; `filterItems` contains the complete multi-condition model. Contains a JSON-safe event envelope. */
   beforefilterapply: PropTypes.object,
-  /** Emitted before applying a filter to the data source. Use e.preventDefault() to prevent the default behavior of trimming values and applying the filter. Modify the `collection` property if you want to change the filters. Modify the `itemsToFilter` property if you want to filter the indexes for trimming. Contains a JSON-safe event envelope. */
+  /** Emitted before applying filter trim indexes. Use `event.preventDefault()` to cancel. `collection` contains the first condition for each column; `filterItems` contains the complete model. Contains a JSON-safe event envelope. */
   beforefiltertrimmed: PropTypes.object,
   /** Before the grid focus is lost. To prevent the default behavior of changing the cell focus, you can call `e.preventDefault()`. Contains a JSON-safe event envelope. */
   beforefocuslost: PropTypes.object,
