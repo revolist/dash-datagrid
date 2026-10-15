@@ -244,7 +244,7 @@ RevoGrid.propTypes = {
   disableVirtualY: PropTypes.bool,
   /** Enable export plugin. */
   exporting: PropTypes.bool,
-  /** Enables filter plugin. Enabled by default; set to `false` to opt out. Can be boolean. Or can be filter collection See `FilterCollection` for more info. */
+  /** Enables filter plugin. Disabled by default; set to `true` or a configuration object to enable. Can be boolean. Or can be filter collection See `FilterCollection` for more info. */
   filter: PropTypes.bool,
   /** Defines how many rows/columns should be rendered outside visible area. */
   frameSize: PropTypes.number,
